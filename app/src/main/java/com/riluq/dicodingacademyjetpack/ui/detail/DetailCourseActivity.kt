@@ -1,4 +1,4 @@
-package com.riluq.dicodingacademyjetpack.detail
+package com.riluq.dicodingacademyjetpack.ui.detail
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar

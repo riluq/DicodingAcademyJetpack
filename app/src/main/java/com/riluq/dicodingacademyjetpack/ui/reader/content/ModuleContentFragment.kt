@@ -1,4 +1,4 @@
-package com.riluq.dicodingacademyjetpack.reader.content
+package com.riluq.dicodingacademyjetpack.ui.reader.content
 
 
 import android.os.Bundle

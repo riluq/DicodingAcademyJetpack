@@ -12,18 +12,18 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name="com.riluq.dicodingacademyjetpack.detail.DetailCourseActivity"
+                android:name="com.riluq.dicodingacademyjetpack.ui.detail.DetailCourseActivity"
                 android:label="@string/title_activity_detail_course"
-                android:parentActivityName="com.riluq.dicodingacademyjetpack.home.HomeActivity"
+                android:parentActivityName="com.riluq.dicodingacademyjetpack.ui.home.HomeActivity"
                 android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="com.riluq.dicodingacademyjetpack.home.HomeActivity"/>
+                    android:value="com.riluq.dicodingacademyjetpack.ui.home.HomeActivity"/>
         </activity>
-        <activity android:name="com.riluq.dicodingacademyjetpack.reader.CourseReaderActivity">
+        <activity android:name="com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderActivity">
         </activity>
         <activity
-                android:name="com.riluq.dicodingacademyjetpack.home.HomeActivity"
+                android:name="com.riluq.dicodingacademyjetpack.ui.home.HomeActivity"
                 android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

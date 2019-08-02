@@ -1,4 +1,4 @@
-package com.riluq.dicodingacademyjetpack.home
+package com.riluq.dicodingacademyjetpack.ui.home
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
