@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.data.ContentEntity
 
 
@@ -39,13 +40,13 @@ class ModuleContentFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(com.riluq.dicodingacademyjetpack.R.layout.fragment_module_content, container, false)
+        return inflater.inflate(R.layout.fragment_module_content, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        webView = view.findViewById(com.riluq.dicodingacademyjetpack.R.id.web_view)
-        progressBar = view.findViewById(com.riluq.dicodingacademyjetpack.R.id.progress_bar)
+        webView = view.findViewById(R.id.web_view)
+        progressBar = view.findViewById(R.id.progress_bar)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

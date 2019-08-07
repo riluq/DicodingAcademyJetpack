@@ -9,6 +9,7 @@ import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.utils.generateDummyCourses
 
 
@@ -38,13 +39,13 @@ class AcademyFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(com.riluq.dicodingacademyjetpack.R.layout.fragment_academy, container, false)
+        return inflater.inflate(R.layout.fragment_academy, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rvCourse = view.findViewById(com.riluq.dicodingacademyjetpack.R.id.rv_academy)
-        progressBar = view.findViewById(com.riluq.dicodingacademyjetpack.R.id.progress_bar)
+        rvCourse = view.findViewById(R.id.rv_academy)
+        progressBar = view.findViewById(R.id.progress_bar)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

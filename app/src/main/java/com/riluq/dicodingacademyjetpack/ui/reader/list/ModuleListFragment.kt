@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.data.ModuleEntity
 import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderActivity
 import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderCallback
@@ -44,13 +45,13 @@ class ModuleListFragment() : Fragment(), MyAdapterClickListener {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(com.riluq.dicodingacademyjetpack.R.layout.fragment_module_list, container, false)
+        return inflater.inflate(R.layout.fragment_module_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = view.findViewById(com.riluq.dicodingacademyjetpack.R.id.rv_module)
-        progressBar = view.findViewById(com.riluq.dicodingacademyjetpack.R.id.progress_bar)
+        recyclerView = view.findViewById(R.id.rv_module)
+        progressBar = view.findViewById(R.id.progress_bar)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

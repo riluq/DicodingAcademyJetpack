@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.riluq.dicodingacademyjetpack.data.CourseEntity
 import androidx.core.app.ShareCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.utils.generateDummyCourses
 
 
@@ -40,13 +41,13 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(com.riluq.dicodingacademyjetpack.R.layout.fragment_bookmark, container, false)
+        return inflater.inflate(R.layout.fragment_bookmark, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rvBookmark = view.findViewById(com.riluq.dicodingacademyjetpack.R.id.rv_bookmark);
-        progressBar = view.findViewById(com.riluq.dicodingacademyjetpack.R.id.progress_bar);
+        rvBookmark = view.findViewById(R.id.rv_bookmark);
+        progressBar = view.findViewById(R.id.progress_bar);
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

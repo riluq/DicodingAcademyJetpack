@@ -5,25 +5,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.ui.academy.AcademyFragment
 import com.riluq.dicodingacademyjetpack.ui.bookmark.BookmarkFragment
+import kotlinx.android.synthetic.main.activity_home.*
 
 
 class HomeActivity : AppCompatActivity() {
 
     var fragment: Fragment? = null
     private val SELECTED_MENU = "selected_menu"
-    private lateinit var navView: BottomNavigationView
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
-            com.riluq.dicodingacademyjetpack.R.id.action_home -> {
-
+            R.id.action_home -> {
                 fragment = AcademyFragment.newInstance()
 //                return@OnNavigationItemSelectedListener true
             }
-            com.riluq.dicodingacademyjetpack.R.id.action_bookmark -> {
-
+            R.id.action_bookmark -> {
                 fragment = BookmarkFragment.newInstance()
 //                return@OnNavigationItemSelectedListener true
             }
@@ -34,7 +33,7 @@ class HomeActivity : AppCompatActivity() {
                 supportFragmentManager
                     .beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .replace(com.riluq.dicodingacademyjetpack.R.id.container, it)
+                    .replace(R.id.container, it)
                     .commit()
             }
         }
@@ -44,20 +43,19 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.riluq.dicodingacademyjetpack.R.layout.activity_home)
-        val navView: BottomNavigationView = findViewById(com.riluq.dicodingacademyjetpack.R.id.nav_view)
-        navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        setContentView(R.layout.activity_home)
+        nav_view.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         if (savedInstanceState != null) {
             savedInstanceState.getInt(SELECTED_MENU)
         } else {
-            navView.selectedItemId = com.riluq.dicodingacademyjetpack.R.id.action_home
+            nav_view.selectedItemId = R.id.action_home
         }
 
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState?.putInt(SELECTED_MENU, navView.selectedItemId)
+        outState.putInt(SELECTED_MENU, nav_view.selectedItemId)
     }
 }

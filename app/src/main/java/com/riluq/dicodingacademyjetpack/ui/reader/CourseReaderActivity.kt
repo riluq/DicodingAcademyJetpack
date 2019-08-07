@@ -2,6 +2,7 @@ package com.riluq.dicodingacademyjetpack.ui.reader
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.ui.reader.list.ModuleListFragment
 
 
@@ -13,7 +14,7 @@ class CourseReaderActivity : AppCompatActivity(), CourseReaderCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.riluq.dicodingacademyjetpack.R.layout.activity_course_reader)
+        setContentView(R.layout.activity_course_reader)
         val bundle = intent.extras
         if (bundle != null) {
             val courseId = bundle.getString(EXTRA_COURSE_ID)
@@ -39,7 +40,7 @@ class CourseReaderActivity : AppCompatActivity(), CourseReaderCallback {
         var fragment = supportFragmentManager.findFragmentByTag(ModuleListFragment.TAG)
         if (fragment == null) {
             fragment = ModuleListFragment.newInstance()
-            fragmentTransaction.add(com.riluq.dicodingacademyjetpack.R.id.frame_container, fragment, ModuleListFragment.TAG)
+            fragmentTransaction.add(R.id.frame_container, fragment, ModuleListFragment.TAG)
             fragmentTransaction.addToBackStack(null)
         }
         fragmentTransaction.commit()
