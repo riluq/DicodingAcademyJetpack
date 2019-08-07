@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.riluq.dicodingacademyjetpack.R
-import com.riluq.dicodingacademyjetpack.ui.detail.DetailCourseViewModel
+import com.riluq.dicodingacademyjetpack.ui.reader.content.ModuleContentFragment
 import com.riluq.dicodingacademyjetpack.ui.reader.list.ModuleListFragment
 
 
@@ -31,7 +31,10 @@ class CourseReaderActivity : AppCompatActivity(), CourseReaderCallback {
         }
     }
     override fun moveTo(position: Int, moduleId: String) {
-
+        val fragment = ModuleContentFragment.newInstance()
+        supportFragmentManager.beginTransaction().add(R.id.frame_container, fragment, ModuleContentFragment.TAG)
+            .addToBackStack(null)
+            .commit()
     }
 
     override fun onBackPressed() {
