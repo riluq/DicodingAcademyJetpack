@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.data.ModuleEntity
 import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderActivity
 import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderCallback
+import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderViewModel
 import com.riluq.dicodingacademyjetpack.utils.generateDummyModules
 
 
@@ -33,6 +35,10 @@ class ModuleListFragment() : Fragment(), MyAdapterClickListener {
         fun newInstance(): ModuleListFragment {
             return ModuleListFragment()
         }
+    }
+
+    private val viewModel: CourseReaderViewModel by lazy {
+        ViewModelProviders.of(activity!!).get(CourseReaderViewModel::class.java)
     }
 
     private lateinit var adapter: ModuleListAdapter
@@ -58,7 +64,7 @@ class ModuleListFragment() : Fragment(), MyAdapterClickListener {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
             adapter = ModuleListAdapter(this)
-            populateRecyclerView(generateDummyModules("a14"))
+            populateRecyclerView(viewModel.getModules())
         }
     }
     override fun onAttach(context: Context) {
@@ -69,11 +75,12 @@ class ModuleListFragment() : Fragment(), MyAdapterClickListener {
     override fun onItemClicked(position: Int, moduleId: String?) {
         if (moduleId != null) {
             courseReaderCallback.moveTo(position, moduleId)
+            viewModel.setSelectedModule(moduleId)
         }
 
     }
 
-    private fun populateRecyclerView(modules: List<ModuleEntity>) {
+    private fun populateRecyclerView(modules: MutableList<ModuleEntity>?) {
         progressBar.visibility = View.GONE
         adapter.setModules(modules)
         recyclerView.layoutManager = LinearLayoutManager(context)

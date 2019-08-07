@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import com.riluq.dicodingacademyjetpack.R
-import com.riluq.dicodingacademyjetpack.data.ContentEntity
+import com.riluq.dicodingacademyjetpack.data.ModuleEntity
+import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderViewModel
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,6 +33,9 @@ class ModuleContentFragment() : Fragment() {
         }
     }
 
+    private val viewModel: CourseReaderViewModel by lazy {
+        ViewModelProviders.of(activity!!).get(CourseReaderViewModel::class.java)
+    }
 
     private lateinit var webView: WebView
     private lateinit var progressBar: ProgressBar
@@ -52,14 +57,13 @@ class ModuleContentFragment() : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
-            val entity =
-                ContentEntity("<h3 class=\\\"fr-text-bordered\\\">Contoh Content</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>")
-            populateWebView(entity)
+            val module = viewModel.getSelectedModule()
+            populateWebView(module)
         }
     }
 
-    private fun populateWebView(content: ContentEntity) {
-        webView.loadData(content.content, "text/html", "UTF-8")
+    private fun populateWebView(content: ModuleEntity?) {
+        webView.loadData(content?.contentEntity?.content, "text/html", "UTF-8")
     }
 
 }

@@ -7,10 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.riluq.dicodingacademyjetpack.R
-import com.riluq.dicodingacademyjetpack.utils.generateDummyCourses
+import com.riluq.dicodingacademyjetpack.data.CourseEntity
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -23,6 +24,11 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class AcademyFragment : Fragment() {
+
+    private val viewModel: AcademyViewModel by lazy {
+        ViewModelProviders.of(this).get(AcademyViewModel::class.java)
+    }
+    private var courses: MutableList<CourseEntity> = mutableListOf()
 
     private var rvCourse: RecyclerView? = null
     private var progressBar: ProgressBar? = null
@@ -51,8 +57,10 @@ class AcademyFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
+            courses = viewModel.getCourses()
+
             academyAdapter = activity?.let { AcademyAdapter(it) }
-            academyAdapter?.setListCourses(generateDummyCourses())
+            academyAdapter?.setListCourses(courses)
 
             rvCourse?.layoutManager = LinearLayoutManager(context)
             rvCourse?.setHasFixedSize(true)

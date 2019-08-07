@@ -10,8 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.riluq.dicodingacademyjetpack.data.CourseEntity
 import androidx.core.app.ShareCompat
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.riluq.dicodingacademyjetpack.R
+import com.riluq.dicodingacademyjetpack.ui.academy.AcademyViewModel
 import com.riluq.dicodingacademyjetpack.utils.generateDummyCourses
 
 
@@ -25,6 +27,12 @@ private const val ARG_PARAM2 = "param2"
  *
  */
 class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
+
+
+    private val viewModel: BookmarkViewModel by lazy {
+        ViewModelProviders.of(this).get(BookmarkViewModel::class.java)
+    }
+    private var courses: MutableList<CourseEntity> = mutableListOf()
 
     private lateinit var adapter: BookmarkAdapter
     private lateinit var rvBookmark: RecyclerView
@@ -53,8 +61,10 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
+            courses = viewModel.getBookmarks()
+
             adapter = BookmarkAdapter(activity!!, this)
-            adapter.setListCourses(generateDummyCourses())
+            adapter.setListCourses(courses)
 
             rvBookmark.layoutManager = LinearLayoutManager(context)
             rvBookmark.setHasFixedSize(true)

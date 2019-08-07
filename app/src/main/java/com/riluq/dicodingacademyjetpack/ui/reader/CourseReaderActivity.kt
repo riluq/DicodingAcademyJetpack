@@ -2,7 +2,9 @@ package com.riluq.dicodingacademyjetpack.ui.reader
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import com.riluq.dicodingacademyjetpack.R
+import com.riluq.dicodingacademyjetpack.ui.detail.DetailCourseViewModel
 import com.riluq.dicodingacademyjetpack.ui.reader.list.ModuleListFragment
 
 
@@ -12,6 +14,10 @@ class CourseReaderActivity : AppCompatActivity(), CourseReaderCallback {
         const val EXTRA_COURSE_ID = "extra_course_id"
     }
 
+    private val viewModel: CourseReaderViewModel by lazy {
+        ViewModelProviders.of(this).get(CourseReaderViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_reader)
@@ -19,6 +25,7 @@ class CourseReaderActivity : AppCompatActivity(), CourseReaderCallback {
         if (bundle != null) {
             val courseId = bundle.getString(EXTRA_COURSE_ID)
             if (courseId != null) {
+                viewModel.setCourseId(courseId)
                 populateFragment()
             }
         }
