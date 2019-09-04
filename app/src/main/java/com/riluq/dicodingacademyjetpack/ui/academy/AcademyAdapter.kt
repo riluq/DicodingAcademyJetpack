@@ -12,7 +12,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.riluq.dicodingacademyjetpack.data.CourseEntity
 import com.riluq.dicodingacademyjetpack.ui.detail.DetailCourseActivity
 import com.riluq.dicodingacademyjetpack.utils.GlideApp
-
+import com.riluq.dicodingacademyjetpack.R
 
 class AcademyAdapter internal constructor(private val activity: Activity) :
     RecyclerView.Adapter<AcademyAdapter.AcademyViewHolder>() {
@@ -30,7 +30,8 @@ class AcademyAdapter internal constructor(private val activity: Activity) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AcademyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(com.riluq.dicodingacademyjetpack.R.layout.items_academy, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.items_academy, parent, false)
         return AcademyViewHolder(view)
     }
 
@@ -46,17 +47,24 @@ class AcademyAdapter internal constructor(private val activity: Activity) :
 
         GlideApp.with(holder.itemView.context)
             .load(getListCourses()[position].imagePath)
-            .apply(RequestOptions.placeholderOf(com.riluq.dicodingacademyjetpack.R.drawable.ic_loading).error(com.riluq.dicodingacademyjetpack.R.drawable.ic_error))
+            .apply(
+                RequestOptions.placeholderOf(R.drawable.ic_loading).error(
+                    R.drawable.ic_error
+                )
+            )
             .into(holder.imgPoster)
     }
 
     override fun getItemCount(): Int = getListCourses().size
 
     class AcademyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvTitle: TextView = itemView.findViewById(com.riluq.dicodingacademyjetpack.R.id.tv_item_title)
-        val tvDescription: TextView = itemView.findViewById(com.riluq.dicodingacademyjetpack.R.id.tv_item_description)
-        val tvDate: TextView = itemView.findViewById(com.riluq.dicodingacademyjetpack.R.id.tv_item_date)
-        val imgPoster: ImageView = itemView.findViewById(com.riluq.dicodingacademyjetpack.R.id.img_poster)
+        val tvTitle: TextView =
+            itemView.findViewById(R.id.tv_item_title)
+        val tvDescription: TextView = itemView.findViewById(R.id.tv_item_description)
+        val tvDate: TextView =
+            itemView.findViewById(R.id.tv_item_date)
+        val imgPoster: ImageView =
+            itemView.findViewById(R.id.img_poster)
 
     }
 }

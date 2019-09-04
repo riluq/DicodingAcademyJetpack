@@ -27,6 +27,9 @@ android {
             debuggable true
         }
     }
+    androidExtensions {
+        experimental = true
+    }
 }
 
 dependencies {
