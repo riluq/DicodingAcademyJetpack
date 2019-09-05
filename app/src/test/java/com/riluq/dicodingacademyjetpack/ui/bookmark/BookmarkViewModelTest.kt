@@ -11,7 +11,7 @@ class BookmarkViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = BookmarkViewModel()
+//        viewModel = BookmarkViewModel(academyRepository)
     }
 
     @Test

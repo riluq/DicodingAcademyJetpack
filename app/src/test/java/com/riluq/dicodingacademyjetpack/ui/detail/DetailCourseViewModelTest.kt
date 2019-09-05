@@ -1,6 +1,6 @@
 package com.riluq.dicodingacademyjetpack.ui.detail
 
-import com.riluq.dicodingacademyjetpack.data.CourseEntity
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -14,7 +14,7 @@ class DetailCourseViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = DetailCourseViewModel()
+//        viewModel = DetailCourseViewModel(academyRepository)
         dummyCourse = CourseEntity(
             "a14",
             "Menjadi Android Developer Expert",

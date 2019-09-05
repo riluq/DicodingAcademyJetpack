@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.riluq.dicodingacademyjetpack.R
-import com.riluq.dicodingacademyjetpack.data.CourseEntity
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
+import com.riluq.dicodingacademyjetpack.viewmodel.ViewModelFactory
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -25,10 +27,8 @@ private const val ARG_PARAM2 = "param2"
  */
 class AcademyFragment : Fragment() {
 
-    private val viewModel: AcademyViewModel by lazy {
-        ViewModelProviders.of(this).get(AcademyViewModel::class.java)
-    }
-    private var courses: MutableList<CourseEntity> = mutableListOf()
+    private var viewModel: AcademyViewModel? = null
+    private var courses: List<CourseEntity> = listOf()
 
     private var rvCourse: RecyclerView? = null
     private var progressBar: ProgressBar? = null
@@ -37,6 +37,12 @@ class AcademyFragment : Fragment() {
     companion object {
         fun newInstance(): Fragment {
             return AcademyFragment()
+        }
+
+        private fun obtainViewModel(activity: FragmentActivity?): AcademyViewModel {
+            // Use a Factory to inject dependencies into the ViewModel
+            val factory = ViewModelFactory.getInstance(activity?.application!!)
+            return ViewModelProviders.of(activity, factory).get(AcademyViewModel::class.java)
         }
     }
 
@@ -57,7 +63,10 @@ class AcademyFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
-            courses = viewModel.getCourses()
+
+            viewModel = obtainViewModel(activity)
+
+            courses = viewModel!!.getCourses()
 
             academyAdapter = activity?.let { AcademyAdapter(it) }
             academyAdapter?.setListCourses(courses)

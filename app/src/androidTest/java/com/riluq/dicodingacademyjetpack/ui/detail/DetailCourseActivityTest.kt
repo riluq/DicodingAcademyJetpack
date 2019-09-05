@@ -7,7 +7,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.riluq.dicodingacademyjetpack.R
-import com.riluq.dicodingacademyjetpack.data.CourseEntity
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.utils.RecyclerViewItemCountAssertion
 import com.riluq.dicodingacademyjetpack.utils.generateDummyCourses
 import org.junit.Before

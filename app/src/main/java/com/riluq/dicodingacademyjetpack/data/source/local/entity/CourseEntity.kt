@@ -1,4 +1,4 @@
-package com.riluq.dicodingacademyjetpack.data
+package com.riluq.dicodingacademyjetpack.data.source.local.entity
 
 class CourseEntity(
     var courseId: String?,

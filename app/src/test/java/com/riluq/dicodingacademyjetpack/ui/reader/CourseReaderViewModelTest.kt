@@ -1,6 +1,6 @@
 package com.riluq.dicodingacademyjetpack.ui.reader
 
-import com.riluq.dicodingacademyjetpack.data.ContentEntity
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.ContentEntity
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -15,7 +15,7 @@ class CourseReaderViewModelTest {
 
     @Before
     fun setUp() {
-        viewModel = CourseReaderViewModel()
+//        viewModel = CourseReaderViewModel(academyRepository)
         viewModel!!.setCourseId("a14")
 
         moduleId = "a14m1"

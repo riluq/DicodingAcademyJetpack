@@ -1,7 +1,7 @@
 package com.riluq.dicodingacademyjetpack.utils
 
-import com.riluq.dicodingacademyjetpack.data.CourseEntity
-import com.riluq.dicodingacademyjetpack.data.ModuleEntity
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
 
 
 fun generateDummyCourses(): MutableList<CourseEntity> {

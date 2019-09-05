@@ -11,7 +11,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
 import com.riluq.dicodingacademyjetpack.R
-import com.riluq.dicodingacademyjetpack.data.CourseEntity
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.ui.detail.DetailCourseActivity
 import com.riluq.dicodingacademyjetpack.utils.GlideApp
 

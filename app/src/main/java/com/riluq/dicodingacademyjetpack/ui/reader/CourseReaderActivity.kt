@@ -2,30 +2,37 @@ package com.riluq.dicodingacademyjetpack.ui.reader
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.ui.reader.content.ModuleContentFragment
 import com.riluq.dicodingacademyjetpack.ui.reader.list.ModuleListFragment
+import com.riluq.dicodingacademyjetpack.viewmodel.ViewModelFactory
 
 
 class CourseReaderActivity : AppCompatActivity(), CourseReaderCallback {
 
     companion object {
         const val EXTRA_COURSE_ID = "extra_course_id"
+
+        private fun obtainViewModel(activity: FragmentActivity): CourseReaderViewModel {
+            // Use a Factory to inject dependencies into the ViewModel
+            val factory = ViewModelFactory.getInstance(activity.application)
+            return ViewModelProviders.of(activity, factory).get(CourseReaderViewModel::class.java)
+        }
     }
 
-    private val viewModel: CourseReaderViewModel by lazy {
-        ViewModelProviders.of(this).get(CourseReaderViewModel::class.java)
-    }
+    private var viewModel: CourseReaderViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_course_reader)
+        viewModel = obtainViewModel(this)
         val bundle = intent.extras
         if (bundle != null) {
             val courseId = bundle.getString(EXTRA_COURSE_ID)
             if (courseId != null) {
-                viewModel.setCourseId(courseId)
+                viewModel!!.setCourseId(courseId)
                 populateFragment()
             }
         }

@@ -1,4 +1,4 @@
-package com.riluq.dicodingacademyjetpack.data
+package com.riluq.dicodingacademyjetpack.data.source.local.entity
 
 class ModuleEntity(var moduleId: String?, courseId: String, var title: String?, var position: Int?, read: Boolean?) {
     var contentEntity: ContentEntity? = null

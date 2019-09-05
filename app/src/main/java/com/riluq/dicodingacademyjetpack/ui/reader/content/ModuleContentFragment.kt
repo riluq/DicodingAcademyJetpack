@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import com.riluq.dicodingacademyjetpack.R
-import com.riluq.dicodingacademyjetpack.data.ModuleEntity
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
 import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderViewModel
+import com.riluq.dicodingacademyjetpack.viewmodel.ViewModelFactory
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,11 +33,15 @@ class ModuleContentFragment() : Fragment() {
         fun newInstance(): ModuleContentFragment {
             return ModuleContentFragment()
         }
+
+        private fun obtainViewModel(activity: FragmentActivity): CourseReaderViewModel {
+            // Use a Factory to inject dependencies into the ViewModel
+            val factory = ViewModelFactory.getInstance(activity.application)
+            return ViewModelProviders.of(activity, factory).get(CourseReaderViewModel::class.java)
+        }
     }
 
-    private val viewModel: CourseReaderViewModel by lazy {
-        ViewModelProviders.of(activity!!).get(CourseReaderViewModel::class.java)
-    }
+    private var viewModel: CourseReaderViewModel? = null
 
     private lateinit var webView: WebView
     private lateinit var progressBar: ProgressBar
@@ -57,7 +63,8 @@ class ModuleContentFragment() : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
-            val module = viewModel.getSelectedModule()
+            viewModel = obtainViewModel(activity!!)
+            val module = viewModel!!.getSelectedModule()
             populateWebView(module)
         }
     }

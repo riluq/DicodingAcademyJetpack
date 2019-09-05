@@ -7,16 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.riluq.dicodingacademyjetpack.R
-import com.riluq.dicodingacademyjetpack.data.ModuleEntity
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
 import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderActivity
 import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderCallback
 import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderViewModel
-import com.riluq.dicodingacademyjetpack.utils.generateDummyModules
+import com.riluq.dicodingacademyjetpack.viewmodel.ViewModelFactory
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,11 +36,15 @@ class ModuleListFragment() : Fragment(), MyAdapterClickListener {
         fun newInstance(): ModuleListFragment {
             return ModuleListFragment()
         }
+
+        private fun obtainViewModel(activity: FragmentActivity): CourseReaderViewModel {
+            // Use a Factory to inject dependencies into the ViewModel
+            val factory = ViewModelFactory.getInstance(activity.application)
+            return ViewModelProviders.of(activity, factory).get(CourseReaderViewModel::class.java)
+        }
     }
 
-    private val viewModel: CourseReaderViewModel by lazy {
-        ViewModelProviders.of(activity!!).get(CourseReaderViewModel::class.java)
-    }
+    private var viewModel: CourseReaderViewModel? = null
 
     private lateinit var adapter: ModuleListAdapter
     private lateinit var courseReaderCallback: CourseReaderCallback
@@ -63,8 +68,9 @@ class ModuleListFragment() : Fragment(), MyAdapterClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
+            viewModel = obtainViewModel(activity!!)
             adapter = ModuleListAdapter(this)
-            populateRecyclerView(viewModel.getModules())
+            populateRecyclerView(viewModel?.getModules())
         }
     }
     override fun onAttach(context: Context) {
@@ -75,12 +81,12 @@ class ModuleListFragment() : Fragment(), MyAdapterClickListener {
     override fun onItemClicked(position: Int, moduleId: String?) {
         if (moduleId != null) {
             courseReaderCallback.moveTo(position, moduleId)
-            viewModel.setSelectedModule(moduleId)
+            viewModel?.setSelectedModule(moduleId)
         }
 
     }
 
-    private fun populateRecyclerView(modules: MutableList<ModuleEntity>?) {
+    private fun populateRecyclerView(modules: List<ModuleEntity>?) {
         progressBar.visibility = View.GONE
         adapter.setModules(modules)
         recyclerView.layoutManager = LinearLayoutManager(context)

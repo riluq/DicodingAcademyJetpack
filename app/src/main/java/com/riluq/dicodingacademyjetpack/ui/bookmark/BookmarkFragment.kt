@@ -8,13 +8,14 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.riluq.dicodingacademyjetpack.data.CourseEntity
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import androidx.core.app.ShareCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.ui.academy.AcademyViewModel
-import com.riluq.dicodingacademyjetpack.utils.generateDummyCourses
+import com.riluq.dicodingacademyjetpack.viewmodel.ViewModelFactory
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -29,10 +30,8 @@ private const val ARG_PARAM2 = "param2"
 class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
 
 
-    private val viewModel: BookmarkViewModel by lazy {
-        ViewModelProviders.of(this).get(BookmarkViewModel::class.java)
-    }
-    private var courses: MutableList<CourseEntity> = mutableListOf()
+    private var viewModel: BookmarkViewModel? = null
+    private var courses: List<CourseEntity> = listOf()
 
     private lateinit var adapter: BookmarkAdapter
     private lateinit var rvBookmark: RecyclerView
@@ -41,6 +40,11 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
     companion object {
         fun newInstance(): Fragment {
             return BookmarkFragment()
+        }
+        private fun obtainViewModel(activity: FragmentActivity?): BookmarkViewModel {
+            // Use a Factory to inject dependencies into the ViewModel
+            val factory = ViewModelFactory.getInstance(activity?.application!!)
+            return ViewModelProviders.of(activity, factory).get(BookmarkViewModel::class.java)
         }
     }
 
@@ -54,14 +58,16 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rvBookmark = view.findViewById(R.id.rv_bookmark);
-        progressBar = view.findViewById(R.id.progress_bar);
+        rvBookmark = view.findViewById(R.id.rv_bookmark)
+        progressBar = view.findViewById(R.id.progress_bar)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
-            courses = viewModel.getBookmarks()
+            viewModel = obtainViewModel(activity)
+
+            courses = viewModel!!.getBookmarks()
 
             adapter = BookmarkAdapter(activity!!, this)
             adapter.setListCourses(courses)

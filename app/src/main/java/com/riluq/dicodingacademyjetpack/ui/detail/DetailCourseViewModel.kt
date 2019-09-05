@@ -1,28 +1,23 @@
 package com.riluq.dicodingacademyjetpack.ui.detail
 
 import androidx.lifecycle.ViewModel
-import com.riluq.dicodingacademyjetpack.data.CourseEntity
+import com.riluq.dicodingacademyjetpack.data.source.AcademyRepository
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.utils.generateDummyCourses
-import com.riluq.dicodingacademyjetpack.data.ModuleEntity
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
 import com.riluq.dicodingacademyjetpack.utils.generateDummyModules
 
 
-class DetailCourseViewModel: ViewModel() {
+class DetailCourseViewModel(private val academyRepository: AcademyRepository) : ViewModel() {
     private var mCourse: CourseEntity? = null
     private var courseId: String? = null
 
     fun getCourse(): CourseEntity? {
-        for (i in 0 until generateDummyCourses().size) {
-            val courseEntity = generateDummyCourses()[i]
-            if (courseEntity.courseId == courseId) {
-                mCourse = courseEntity
-            }
-        }
-        return mCourse
+        return academyRepository.getCourseWithModules(courseId!!)
     }
 
-    fun getModules(): MutableList<ModuleEntity>? {
-        return getCourseId()?.let { generateDummyModules(it) }
+    fun getModules(): List<ModuleEntity>? {
+        return academyRepository.getAllModulesByCourse(courseId!!)
     }
 
     fun setCourseId(courseId: String) {
