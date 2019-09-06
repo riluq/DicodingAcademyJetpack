@@ -6,16 +6,16 @@ import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
 import com.riluq.dicodingacademyjetpack.data.source.remote.RemoteRepository
 
 
-class AcademyRepository(private val remoteRepository: RemoteRepository): AcademyDataSource {
+class FakeAcademyRepository(val remoteRepository: RemoteRepository): AcademyDataSource {
     companion object {
 
         @Volatile
-        private var INSTANCE: AcademyRepository? = null
-        fun getInstance(remoteData: RemoteRepository): AcademyRepository {
+        private var INSTANCE: FakeAcademyRepository? = null
+        fun getInstance(remoteData: RemoteRepository): FakeAcademyRepository {
             if (INSTANCE == null) {
-                synchronized(AcademyRepository::class.java) {
+                synchronized(FakeAcademyRepository::class.java) {
                     if (INSTANCE == null) {
-                        INSTANCE = AcademyRepository(remoteData)
+                        INSTANCE = FakeAcademyRepository(remoteData)
                     }
                 }
             }
