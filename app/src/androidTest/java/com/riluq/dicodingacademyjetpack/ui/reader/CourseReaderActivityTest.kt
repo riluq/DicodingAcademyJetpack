@@ -11,6 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import com.riluq.dicodingacademyjetpack.R
+import com.riluq.dicodingacademyjetpack.utils.FakeDataDummyAndroidTest
 import com.riluq.dicodingacademyjetpack.utils.RecyclerViewItemCountAssertion
 import com.riluq.dicodingacademyjetpack.utils.generateDummyCourses
 import org.junit.Before
@@ -20,7 +21,7 @@ import org.junit.Test
 
 class CourseReaderActivityTest {
 
-    private val dummyCourse = generateDummyCourses()[0]
+    private val dummyCourse = FakeDataDummyAndroidTest.generateDummyCourses()[0]
 
     @get:Rule
     var activityRule: ActivityTestRule<CourseReaderActivity> =
