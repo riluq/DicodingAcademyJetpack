@@ -31,7 +31,6 @@ class DetailCourseActivityTest {
             }
         }
 
-
     @Before
     fun setUp() {
     }

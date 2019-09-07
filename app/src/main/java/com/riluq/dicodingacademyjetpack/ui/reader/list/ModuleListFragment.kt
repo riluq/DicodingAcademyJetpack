@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -68,9 +69,15 @@ class ModuleListFragment() : Fragment(), MyAdapterClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
+            progressBar.visibility = View.VISIBLE
             viewModel = obtainViewModel(activity!!)
             adapter = ModuleListAdapter(this)
-            populateRecyclerView(viewModel?.getModules())
+            viewModel?.getModules()?.observe(this, Observer { moduleEntities ->
+                if (moduleEntities != null) {
+                    progressBar.visibility = View.GONE
+                    populateRecyclerView(moduleEntities)
+                }
+            })
         }
     }
     override fun onAttach(context: Context) {

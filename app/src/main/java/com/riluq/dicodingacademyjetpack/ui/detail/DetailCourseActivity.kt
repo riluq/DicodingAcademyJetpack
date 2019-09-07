@@ -1,14 +1,14 @@
 package com.riluq.dicodingacademyjetpack.ui.detail
 
-import android.app.Application
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
 import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
-import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
 import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderActivity
 import com.riluq.dicodingacademyjetpack.utils.GlideApp
 import com.riluq.dicodingacademyjetpack.viewmodel.ViewModelFactory
@@ -35,8 +34,6 @@ class DetailCourseActivity : AppCompatActivity() {
         }
     }
     private var viewModel: DetailCourseViewModel? = null
-
-    private var modules: List<ModuleEntity>? = listOf()
 
     private lateinit var btnStart: Button
     private lateinit var textTitle: TextView
@@ -69,14 +66,22 @@ class DetailCourseActivity : AppCompatActivity() {
         if (extras != null) {
             val courseId = extras.getString(EXTRA_COURSE)
             if (courseId != null) {
+                progressBar.visibility = View.VISIBLE
                 viewModel?.setCourseId(courseId)
-                modules = viewModel?.getModules()
-                adapter.setModules(modules)
             }
         }
-        if (viewModel?.getCourse() != null) {
-            populateCourse(viewModel!!.getCourse())
-        }
+
+        viewModel?.getModules()?.observe(this, Observer {moduleEntities ->
+            progressBar.visibility = View.GONE
+            adapter.setModules(moduleEntities)
+            adapter.notifyDataSetChanged()
+        })
+
+        viewModel?.getCourse()?.observe(this, Observer { courseEntity ->
+            if (courseEntity != null) {
+                populateCourse(courseEntity)
+            }
+        })
 
         rvModule.isNestedScrollingEnabled = false
         rvModule.layoutManager = LinearLayoutManager(this)

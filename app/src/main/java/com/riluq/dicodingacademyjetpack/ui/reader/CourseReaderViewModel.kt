@@ -1,5 +1,6 @@
 package com.riluq.dicodingacademyjetpack.ui.reader
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.riluq.dicodingacademyjetpack.data.source.AcademyRepository
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.ContentEntity
@@ -11,7 +12,7 @@ class CourseReaderViewModel(private val academyRepository: AcademyRepository) : 
     private var courseId: String? = null
     private var moduleId: String? = null
 
-    fun getModules(): List<ModuleEntity>? {
+    fun getModules(): LiveData<List<ModuleEntity>>? {
         return academyRepository.getAllModulesByCourse(courseId!!)
     }
 
@@ -19,7 +20,7 @@ class CourseReaderViewModel(private val academyRepository: AcademyRepository) : 
         this.courseId = courseId
     }
 
-    fun getSelectedModule(): ModuleEntity? {
+    fun getSelectedModule(): LiveData<ModuleEntity>? {
         return academyRepository.getContent(courseId!!, moduleId!!)
     }
 

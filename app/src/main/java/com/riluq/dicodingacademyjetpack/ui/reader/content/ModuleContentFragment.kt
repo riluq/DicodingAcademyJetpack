@@ -9,6 +9,7 @@ import android.webkit.WebView
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
@@ -64,8 +65,13 @@ class ModuleContentFragment() : Fragment() {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
             viewModel = obtainViewModel(activity!!)
-            val module = viewModel!!.getSelectedModule()
-            populateWebView(module)
+            progressBar.visibility = View.VISIBLE
+            viewModel?.getSelectedModule()?.observe(this, Observer { moduleEntity ->
+                if (moduleEntity != null) {
+                    progressBar.visibility = View.GONE
+                    populateWebView(moduleEntity)
+                }
+            })
         }
     }
 

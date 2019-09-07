@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import androidx.core.app.ShareCompat
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.riluq.dicodingacademyjetpack.R
@@ -31,7 +32,6 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
 
 
     private var viewModel: BookmarkViewModel? = null
-    private var courses: List<CourseEntity> = listOf()
 
     private lateinit var adapter: BookmarkAdapter
     private lateinit var rvBookmark: RecyclerView
@@ -65,12 +65,16 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
+            progressBar.visibility = View.VISIBLE
             viewModel = obtainViewModel(activity)
 
-            courses = viewModel!!.getBookmarks()
-
             adapter = BookmarkAdapter(activity!!, this)
-            adapter.setListCourses(courses)
+
+            viewModel?.getBookmarks()?.observe(this, Observer { courses ->
+                progressBar.visibility = View.GONE
+                adapter.setListCourses(courses)
+                adapter.notifyDataSetChanged()
+            })
 
             rvBookmark.layoutManager = LinearLayoutManager(context)
             rvBookmark.setHasFixedSize(true)

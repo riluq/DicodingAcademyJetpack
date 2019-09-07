@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,7 +29,6 @@ private const val ARG_PARAM2 = "param2"
 class AcademyFragment : Fragment() {
 
     private var viewModel: AcademyViewModel? = null
-    private var courses: List<CourseEntity> = listOf()
 
     private var rvCourse: RecyclerView? = null
     private var progressBar: ProgressBar? = null
@@ -63,13 +63,17 @@ class AcademyFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
-
+            progressBar?.visibility = View.VISIBLE
             viewModel = obtainViewModel(activity)
 
-            courses = viewModel!!.getCourses()
-
             academyAdapter = activity?.let { AcademyAdapter(it) }
-            academyAdapter?.setListCourses(courses)
+
+            viewModel!!.getCourses().observe(this, Observer { courses ->
+                progressBar?.visibility = View.GONE
+                academyAdapter?.setListCourses(courses)
+                academyAdapter?.notifyDataSetChanged()
+            })
+
 
             rvCourse?.layoutManager = LinearLayoutManager(context)
             rvCourse?.setHasFixedSize(true)
