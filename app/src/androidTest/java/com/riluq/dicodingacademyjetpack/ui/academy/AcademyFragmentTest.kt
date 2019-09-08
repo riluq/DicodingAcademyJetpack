@@ -9,7 +9,6 @@ import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.testing.SingleFragmentActivity
 import com.riluq.dicodingacademyjetpack.utils.RecyclerViewItemCountAssertion
 import org.junit.Before
-
 import org.junit.Rule
 import org.junit.Test
 
@@ -27,6 +26,12 @@ class AcademyFragmentTest {
 
     @Test
     fun loadCourses() {
+        try {
+            Thread.sleep(3000)
+        } catch (e: InterruptedException) {
+            e.printStackTrace()
+        }
+
         onView(withId(R.id.rv_academy)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_academy)).check(RecyclerViewItemCountAssertion(5))
     }
