@@ -1,6 +1,8 @@
 package com.riluq.dicodingacademyjetpack.data.source
 
 import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import com.riluq.dicodingacademyjetpack.data.source.local.LocalRepository
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseWithModule
@@ -37,8 +39,8 @@ class FakeAcademyRepository(
             }
             return INSTANCE!!
         }
-    }
 
+    }
     override fun getAllCourses(): LiveData<Resource<List<CourseEntity>>>? {
         return object : NetworkBoundResource<List<CourseEntity>, List<CourseResponse>>(appExecutors) {
             override fun loadFromDB(): LiveData<List<CourseEntity>> {
@@ -71,6 +73,7 @@ class FakeAcademyRepository(
 
         }.asLiveData()
     }
+
     override fun getCourseWithModules(courseId: String): LiveData<Resource<CourseWithModule>>? {
         return object : NetworkBoundResource<CourseWithModule, List<ModuleResponse>>(appExecutors){
             override fun loadFromDB(): LiveData<CourseWithModule> {
@@ -102,7 +105,6 @@ class FakeAcademyRepository(
 
         }.asLiveData()
     }
-
     override fun getAllModulesByCourse(courseId: String): LiveData<Resource<List<ModuleEntity>>>? {
         return object : NetworkBoundResource<List<ModuleEntity>, List<ModuleResponse>>(appExecutors) {
             override fun loadFromDB(): LiveData<List<ModuleEntity>>? {
@@ -172,6 +174,27 @@ class FakeAcademyRepository(
 
             override fun saveCallResult(data: ContentResponse?) {
                 localRepository.updateContent(data?.content!!, moduleId)
+            }
+
+        }.asLiveData()
+    }
+
+    override fun getBookmarkedCoursesPaged(): LiveData<Resource<PagedList<CourseEntity>>> {
+        return object : NetworkBoundResource<PagedList<CourseEntity>, List<CourseResponse>>(appExecutors) {
+            override fun loadFromDB(): LiveData<PagedList<CourseEntity>>? {
+                return LivePagedListBuilder(localRepository.getBookmarkedCoursesPaged(), 20).build()
+            }
+
+            override fun shouldFetch(data: PagedList<CourseEntity>?): Boolean? {
+                return false
+            }
+
+            override fun createCall(): LiveData<ApiResponse<List<CourseResponse>>>? {
+                return null
+            }
+
+            override fun saveCallResult(data: List<CourseResponse>?) {
+
             }
 
         }.asLiveData()

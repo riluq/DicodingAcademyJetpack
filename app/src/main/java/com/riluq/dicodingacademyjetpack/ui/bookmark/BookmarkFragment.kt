@@ -7,21 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
-import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import androidx.core.app.ShareCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.riluq.dicodingacademyjetpack.R
-import com.riluq.dicodingacademyjetpack.ui.academy.AcademyViewModel
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.viewmodel.ViewModelFactory
 import com.riluq.dicodingacademyjetpack.vo.Status
-import androidx.recyclerview.widget.ItemTouchHelper.Callback.makeMovementFlags
-import com.google.android.material.snackbar.Snackbar
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -57,13 +55,13 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(com.riluq.dicodingacademyjetpack.R.layout.fragment_bookmark, container, false)
+        return inflater.inflate(R.layout.fragment_bookmark, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        rvBookmark = view.findViewById(com.riluq.dicodingacademyjetpack.R.id.rv_bookmark)
-        progressBar = view.findViewById(com.riluq.dicodingacademyjetpack.R.id.progress_bar)
+        rvBookmark = view.findViewById(R.id.rv_bookmark)
+        progressBar = view.findViewById(R.id.progress_bar)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

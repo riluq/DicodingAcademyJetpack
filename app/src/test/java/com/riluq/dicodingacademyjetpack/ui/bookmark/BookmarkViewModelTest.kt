@@ -3,6 +3,7 @@ package com.riluq.dicodingacademyjetpack.ui.bookmark
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.nhaarman.mockitokotlin2.mock
 import com.riluq.dicodingacademyjetpack.data.source.AcademyRepository
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
@@ -24,7 +25,7 @@ class BookmarkViewModelTest {
     private var viewModel: BookmarkViewModel? = null
     private val academyRepository: AcademyRepository = mock(AcademyRepository::class.java)
 
-    val observer: Observer<Resource<List<CourseEntity>>> = mock()
+    val observer: Observer<Resource<PagedList<CourseEntity>>> = mock()
 
     @Before
     fun setUp() {
@@ -33,14 +34,15 @@ class BookmarkViewModelTest {
 
     @Test
     fun getBookmarks() {
-        val resource: Resource<List<CourseEntity>> = Resource.success(FakeDataDummyTest.generateDummyCourses())
-        val dummyCourses = MutableLiveData<Resource<List<CourseEntity>>>()
-        dummyCourses.value = resource
+        val dummyCourses = MutableLiveData<Resource<PagedList<CourseEntity>>>()
+        val pagedList: PagedList<CourseEntity> = mock()
 
-        `when`(academyRepository.getBookmarkedCourses()).thenReturn(dummyCourses)
+        dummyCourses.value = Resource.success(pagedList)
 
-        viewModel?.getBookmarks()?.observeForever(observer)
+        `when`(academyRepository.getBookmarkedCoursesPaged()).thenReturn(dummyCourses)
 
-        verify(observer).onChanged(resource)
+        viewModel?.getBookmarksPaged()?.observeForever(observer)
+
+        verify(observer).onChanged(Resource.success(pagedList))
     }
 }
