@@ -37,6 +37,7 @@ class DetailCourseActivity : AppCompatActivity() {
             return ViewModelProviders.of(activity, factory).get(DetailCourseViewModel::class.java)
         }
     }
+
     private var viewModel: DetailCourseViewModel? = null
 
     private lateinit var btnStart: Button
@@ -79,7 +80,7 @@ class DetailCourseActivity : AppCompatActivity() {
 
         viewModel?.courseModule?.observe(this, Observer { courseWithModuleResource ->
             if (courseWithModuleResource != null) {
-                when(courseWithModuleResource.status) {
+                when (courseWithModuleResource.status) {
                     Status.LOADING -> progressBar.visibility = View.VISIBLE
                     Status.SUCCESS -> {
                         if (courseWithModuleResource.data != null) {
@@ -98,7 +99,8 @@ class DetailCourseActivity : AppCompatActivity() {
         rvModule.layoutManager = LinearLayoutManager(this)
         rvModule.setHasFixedSize(true)
         rvModule.adapter = adapter
-        val dividerItemDecoration = DividerItemDecoration(rvModule.context, DividerItemDecoration.VERTICAL)
+        val dividerItemDecoration =
+            DividerItemDecoration(rvModule.context, DividerItemDecoration.VERTICAL)
         rvModule.addItemDecoration(dividerItemDecoration)
     }
 
@@ -124,7 +126,7 @@ class DetailCourseActivity : AppCompatActivity() {
         this.menu = menu
         viewModel?.courseModule?.observe(this, Observer { courseWithModule ->
             if (courseWithModule != null) {
-                when(courseWithModule.status) {
+                when (courseWithModule.status) {
                     Status.LOADING -> progressBar.visibility = View.VISIBLE
                     Status.SUCCESS -> {
                         if (courseWithModule.data != null) {

@@ -20,7 +20,8 @@ import org.junit.Test
 class AcademyFragmentTest {
 
     @get:Rule
-    val activityRule: ActivityTestRule<SingleFragmentActivity> = ActivityTestRule(SingleFragmentActivity::class.java)
+    val activityRule: ActivityTestRule<SingleFragmentActivity> =
+        ActivityTestRule(SingleFragmentActivity::class.java)
     private val academyFragment: AcademyFragment = AcademyFragment()
 
     @Before

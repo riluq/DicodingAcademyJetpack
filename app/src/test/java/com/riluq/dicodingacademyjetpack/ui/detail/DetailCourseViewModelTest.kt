@@ -25,7 +25,8 @@ class DetailCourseViewModelTest {
     private var dummyCourse: CourseEntity? = FakeDataDummyTest.generateDummyCourses()[0]
     private val academyRepository: AcademyRepository = mock(AcademyRepository::class.java)
     private val courseId = dummyCourse?.courseId
-    private val dummyModules: List<ModuleEntity> = FakeDataDummyTest.generateDummyModules(courseId!!)
+    private val dummyModules: List<ModuleEntity> =
+        FakeDataDummyTest.generateDummyModules(courseId!!)
 
     private val observer: Observer<Resource<CourseWithModule>> = mock()
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/cv_item_course"
         android:layout_width="match_parent"
@@ -12,6 +12,7 @@
         app:cardElevation="4dp"
         app:cardMaxElevation="4dp"
         app:cardUseCompatPadding="true">
+
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/item_container"
             android:layout_width="match_parent"

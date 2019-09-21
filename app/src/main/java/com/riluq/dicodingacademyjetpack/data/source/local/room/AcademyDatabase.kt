@@ -13,7 +13,7 @@ import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
     version = 1,
     exportSchema = false
 )
-abstract class AcademyDatabase: RoomDatabase() {
+abstract class AcademyDatabase : RoomDatabase() {
     abstract fun academyDao(): AcademyDao
 
     companion object {
@@ -23,8 +23,10 @@ abstract class AcademyDatabase: RoomDatabase() {
         fun getInstance(context: Context): AcademyDatabase {
             synchronized(sLock) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.applicationContext,
-                        AcademyDatabase::class.java, "Academies.db")
+                    INSTANCE = Room.databaseBuilder(
+                        context.applicationContext,
+                        AcademyDatabase::class.java, "Academies.db"
+                    )
                         .build()
                 }
             }

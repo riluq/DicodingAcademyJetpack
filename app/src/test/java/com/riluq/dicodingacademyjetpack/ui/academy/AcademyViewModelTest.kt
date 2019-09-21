@@ -11,7 +11,6 @@ import com.riluq.dicodingacademyjetpack.vo.Resource
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
 import org.mockito.Mockito.*
 
 
@@ -34,8 +33,9 @@ class AcademyViewModelTest {
 
     @Test
     fun getCourses() {
-        val resource: Resource<List<CourseEntity>> = Resource.success(FakeDataDummyTest.generateDummyCourses())
-        val dummyCourse= MutableLiveData<Resource<List<CourseEntity>>>()
+        val resource: Resource<List<CourseEntity>> =
+            Resource.success(FakeDataDummyTest.generateDummyCourses())
+        val dummyCourse = MutableLiveData<Resource<List<CourseEntity>>>()
         dummyCourse.value = resource
 
         `when`(academyRepository?.getAllCourses()).thenReturn(dummyCourse)

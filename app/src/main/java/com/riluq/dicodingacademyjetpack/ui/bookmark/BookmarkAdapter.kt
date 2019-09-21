@@ -16,7 +16,10 @@ import com.riluq.dicodingacademyjetpack.ui.detail.DetailCourseActivity
 import com.riluq.dicodingacademyjetpack.utils.GlideApp
 
 
-class BookmarkAdapter(private val activity: Activity, private val callback: BookmarkFragmentCallback) :
+class BookmarkAdapter(
+    private val activity: Activity,
+    private val callback: BookmarkFragmentCallback
+) :
     RecyclerView.Adapter<BookmarkAdapter.AcademyViewHolder>() {
 
     private val courses: ArrayList<CourseEntity> = arrayListOf()
@@ -28,7 +31,8 @@ class BookmarkAdapter(private val activity: Activity, private val callback: Book
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AcademyViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.items_bookmark, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.items_bookmark, parent, false)
         return AcademyViewHolder(view)
     }
 

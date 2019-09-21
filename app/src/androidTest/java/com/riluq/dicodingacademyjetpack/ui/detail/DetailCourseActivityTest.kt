@@ -12,7 +12,6 @@ import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.utils.EspressoIdlingResource
 import com.riluq.dicodingacademyjetpack.utils.FakeDataDummyAndroidTest
 import com.riluq.dicodingacademyjetpack.utils.RecyclerViewItemCountAssertion
-import com.riluq.dicodingacademyjetpack.utils.generateDummyCourses
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -51,7 +50,16 @@ class DetailCourseActivityTest {
         onView(withId(R.id.text_title)).check(matches(isDisplayed()))
         onView(withId(R.id.text_title)).check(matches(withText(dummyCourse.title)))
         onView(withId(R.id.text_date)).check(matches(isDisplayed()))
-        onView(withId(R.id.text_date)).check(matches(withText(String.format("Deadline %s", dummyCourse.deadline))))
+        onView(withId(R.id.text_date)).check(
+            matches(
+                withText(
+                    String.format(
+                        "Deadline %s",
+                        dummyCourse.deadline
+                    )
+                )
+            )
+        )
     }
 
     @Test

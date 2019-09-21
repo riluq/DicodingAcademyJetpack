@@ -267,7 +267,7 @@ class FakeDataDummyTest {
             val courseWithModule = CourseWithModule()
             courseWithModule.course = course
             courseWithModule.course.isBookmarked = bookmarked
-            courseWithModule.modules= generateDummyModules(course.courseId)
+            courseWithModule.modules = generateDummyModules(course.courseId)
             return courseWithModule
         }
 

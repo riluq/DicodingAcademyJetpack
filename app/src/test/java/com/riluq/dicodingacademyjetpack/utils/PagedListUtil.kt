@@ -2,12 +2,9 @@ package com.riluq.dicodingacademyjetpack.utils
 
 import androidx.paging.PagedList
 import com.nhaarman.mockitokotlin2.mock
-import org.mockito.stubbing.Answer
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import org.mockito.ArgumentMatchers
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.anyInt
-import org.mockito.invocation.InvocationOnMock
+import org.mockito.stubbing.Answer
 
 
 class PagedListUtil {

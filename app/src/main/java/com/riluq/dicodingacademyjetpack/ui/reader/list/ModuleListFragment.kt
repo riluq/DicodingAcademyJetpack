@@ -75,7 +75,7 @@ class ModuleListFragment() : Fragment(), MyAdapterClickListener {
             adapter = ModuleListAdapter(this)
             viewModel?.modules?.observe(this, Observer { moduleEntities ->
                 if (moduleEntities != null) {
-                    when(moduleEntities.status) {
+                    when (moduleEntities.status) {
                         Status.LOADING -> progressBar.visibility = View.VISIBLE
                         Status.SUCCESS -> {
                             progressBar.visibility = View.VISIBLE
@@ -90,6 +90,7 @@ class ModuleListFragment() : Fragment(), MyAdapterClickListener {
             })
         }
     }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         courseReaderCallback = context as CourseReaderActivity
@@ -109,7 +110,8 @@ class ModuleListFragment() : Fragment(), MyAdapterClickListener {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
-        val dividerItemDecoration = DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
+        val dividerItemDecoration =
+            DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL)
         recyclerView.addItemDecoration(dividerItemDecoration)
     }
 

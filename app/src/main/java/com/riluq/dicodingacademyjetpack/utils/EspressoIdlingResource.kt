@@ -13,6 +13,7 @@ class EspressoIdlingResource {
         fun increment() {
             espressoTestIdlingResource.increment()
         }
+
         fun decrement() {
             espressoTestIdlingResource.decrement()
         }

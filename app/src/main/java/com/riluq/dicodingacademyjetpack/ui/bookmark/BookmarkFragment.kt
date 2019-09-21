@@ -43,6 +43,7 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
         fun newInstance(): Fragment {
             return BookmarkFragment()
         }
+
         private fun obtainViewModel(activity: FragmentActivity?): BookmarkViewModel {
             // Use a Factory to inject dependencies into the ViewModel
             val factory = ViewModelFactory.getInstance(activity?.application!!)
@@ -70,11 +71,11 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
             progressBar.visibility = View.VISIBLE
             viewModel = obtainViewModel(activity)
 
-            adapter = BookmarkPagedAdapter( this)
+            adapter = BookmarkPagedAdapter(this)
 
             viewModel?.getBookmarksPaged()?.observe(this, Observer { courses ->
                 if (courses != null) {
-                    when(courses.status) {
+                    when (courses.status) {
                         Status.LOADING -> {
                             progressBar.visibility = View.VISIBLE
                         }
@@ -133,7 +134,7 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
                 val courseEntity = adapter.getItemById(swipedPosition)
                 viewModel?.setBookmark(courseEntity!!)
                 val snackbar = Snackbar.make(view!!, R.string.message_undo, Snackbar.LENGTH_SHORT)
-                snackbar.setAction(R.string.message_ok) {view ->
+                snackbar.setAction(R.string.message_ok) { view ->
                     viewModel?.setBookmark(courseEntity!!)
                 }
                 snackbar.show()

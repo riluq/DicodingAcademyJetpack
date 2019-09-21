@@ -15,7 +15,9 @@ class SingleFragmentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val content: View = FrameLayout(this)
         val params: FrameLayout.LayoutParams = FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            Gravity.CENTER
         )
         content.layoutParams = params
         content.id = R.id.container

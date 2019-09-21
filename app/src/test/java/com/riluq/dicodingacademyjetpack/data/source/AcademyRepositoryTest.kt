@@ -4,7 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PagedList
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import com.riluq.dicodingacademyjetpack.data.source.local.LocalRepository
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseWithModule
@@ -12,7 +13,10 @@ import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
 import com.riluq.dicodingacademyjetpack.data.source.remote.RemoteRepository
 import com.riluq.dicodingacademyjetpack.data.source.remote.response.CourseResponse
 import com.riluq.dicodingacademyjetpack.data.source.remote.response.ModuleResponse
-import com.riluq.dicodingacademyjetpack.utils.*
+import com.riluq.dicodingacademyjetpack.utils.FakeDataDummyTest
+import com.riluq.dicodingacademyjetpack.utils.InstantAppExecutors
+import com.riluq.dicodingacademyjetpack.utils.LiveDataTestUtil
+import com.riluq.dicodingacademyjetpack.utils.PagedListUtil
 import com.riluq.dicodingacademyjetpack.vo.Resource
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -76,7 +80,8 @@ class AcademyRepositoryTest {
 
         `when`(local.getBookmarkedCoursesPaged()).thenReturn(dataSourceFactory)
         academyRepository.getBookmarkedCoursesPaged()
-        val result: Resource<PagedList<CourseEntity>> = Resource.success(PagedListUtil.mockPagedList(courseEntities))
+        val result: Resource<PagedList<CourseEntity>> =
+            Resource.success(PagedListUtil.mockPagedList(courseEntities))
 
         verify(local).getBookmarkedCoursesPaged()
         assertNotNull(result.data)
@@ -91,7 +96,8 @@ class AcademyRepositoryTest {
 
         `when`(local.getModuleWithContent(courseId)).thenReturn(dummyEntity)
 
-        val result: Resource<ModuleEntity> = LiveDataTestUtil.getValue(academyRepository.getContent(courseId)!!)
+        val result: Resource<ModuleEntity> =
+            LiveDataTestUtil.getValue(academyRepository.getContent(courseId)!!)
 
         verify(local).getModuleWithContent(courseId)
         assertNotNull(result)
@@ -106,8 +112,10 @@ class AcademyRepositoryTest {
     fun getCourseWithModules() {
         val dummyEntity = MutableLiveData<CourseWithModule>()
         dummyEntity.value =
-            FakeDataDummyTest.generateDummyCourseWithModules(FakeDataDummyTest.generateDummyCourses()[0],
-                false)
+            FakeDataDummyTest.generateDummyCourseWithModules(
+                FakeDataDummyTest.generateDummyCourses()[0],
+                false
+            )
 
         `when`(local.getCourseWithModules(courseId)).thenReturn(dummyEntity)
 

@@ -10,12 +10,9 @@ import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
 import com.riluq.dicodingacademyjetpack.utils.FakeDataDummyTest
 import com.riluq.dicodingacademyjetpack.vo.Resource
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
 import org.mockito.Mockito.*
 
 
@@ -28,7 +25,8 @@ class CourseReaderViewModelTest {
     private var academyRepository = mock(AcademyRepository::class.java)
     private var dummyCourse: CourseEntity? = FakeDataDummyTest.generateDummyCourses()[0]
     private var courseId = dummyCourse?.courseId
-    private var dummyModules: List<ModuleEntity> = FakeDataDummyTest.generateDummyModules(courseId!!)
+    private var dummyModules: List<ModuleEntity> =
+        FakeDataDummyTest.generateDummyModules(courseId!!)
     private var moduleId = dummyModules[0].moduleId
 
     val observerListModule: Observer<Resource<List<ModuleEntity>>> = mock()

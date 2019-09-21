@@ -1,21 +1,17 @@
 package com.riluq.dicodingacademyjetpack.ui.reader
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.riluq.dicodingacademyjetpack.data.source.AcademyRepository
-import com.riluq.dicodingacademyjetpack.data.source.local.entity.ContentEntity
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
-import com.riluq.dicodingacademyjetpack.utils.generateDummyModules
-import com.riluq.dicodingacademyjetpack.vo.Resource
 
 
 class CourseReaderViewModel(private val academyRepository: AcademyRepository) : ViewModel() {
     private var courseId = MutableLiveData<String>()
     private var moduleId = MutableLiveData<String>()
 
-    val modules = Transformations.switchMap(courseId) {courseId ->
+    val modules = Transformations.switchMap(courseId) { courseId ->
         academyRepository.getAllModulesByCourse(courseId)
     }
 

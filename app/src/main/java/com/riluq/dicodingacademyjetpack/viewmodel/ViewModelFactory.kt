@@ -9,9 +9,9 @@ import com.riluq.dicodingacademyjetpack.ui.academy.AcademyViewModel
 import com.riluq.dicodingacademyjetpack.ui.bookmark.BookmarkViewModel
 import com.riluq.dicodingacademyjetpack.ui.detail.DetailCourseViewModel
 import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderViewModel
-import java.lang.IllegalArgumentException
 
-class ViewModelFactory(val academyRepository: AcademyRepository): ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory(val academyRepository: AcademyRepository) :
+    ViewModelProvider.NewInstanceFactory() {
 
     companion object {
         @Volatile
@@ -32,7 +32,7 @@ class ViewModelFactory(val academyRepository: AcademyRepository): ViewModelProvi
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AcademyViewModel::class.java)) {
             return AcademyViewModel(academyRepository) as T
-        } else if(modelClass.isAssignableFrom(BookmarkViewModel::class.java)) {
+        } else if (modelClass.isAssignableFrom(BookmarkViewModel::class.java)) {
             return BookmarkViewModel(academyRepository) as T
         } else if (modelClass.isAssignableFrom(DetailCourseViewModel::class.java)) {
             return DetailCourseViewModel(academyRepository) as T

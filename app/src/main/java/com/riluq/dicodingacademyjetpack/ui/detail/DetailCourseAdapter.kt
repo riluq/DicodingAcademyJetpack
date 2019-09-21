@@ -20,7 +20,8 @@ class DetailCourseAdapter : RecyclerView.Adapter<DetailCourseAdapter.ModuleViewH
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModuleViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.items_module_list, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.items_module_list, parent, false)
         return ModuleViewHolder(view)
     }
 

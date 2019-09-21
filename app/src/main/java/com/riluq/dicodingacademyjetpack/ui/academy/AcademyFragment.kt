@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.riluq.dicodingacademyjetpack.R
-import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.viewmodel.ViewModelFactory
 import com.riluq.dicodingacademyjetpack.vo.Status
 
@@ -71,9 +70,9 @@ class AcademyFragment : Fragment() {
             academyAdapter = activity?.let { AcademyAdapter(it) }
 
             viewModel?.setUsername("Dicoding")
-            viewModel?.courses?.observe(this, Observer {courses ->
+            viewModel?.courses?.observe(this, Observer { courses ->
                 if (courses != null) {
-                    when(courses.status) {
+                    when (courses.status) {
                         Status.LOADING -> {
                             progressBar?.visibility = View.VISIBLE
                         }

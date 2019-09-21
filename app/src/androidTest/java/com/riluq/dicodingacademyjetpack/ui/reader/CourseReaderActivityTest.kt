@@ -15,7 +15,6 @@ import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.utils.EspressoIdlingResource
 import com.riluq.dicodingacademyjetpack.utils.FakeDataDummyAndroidTest
 import com.riluq.dicodingacademyjetpack.utils.RecyclerViewItemCountAssertion
-import com.riluq.dicodingacademyjetpack.utils.generateDummyCourses
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -58,7 +57,12 @@ class CourseReaderActivityTest {
     @Test
     fun clickModule() {
         onView(withId(R.id.rv_module)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_module)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.rv_module)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
 
         onView(withId(R.id.web_view)).check(matches(isDisplayed()))
     }

@@ -13,7 +13,7 @@ class Resource<T>(val status: Status, val data: T?, val message: String?) {
         }
 
         fun <T> loading(data: T?): Resource<T> {
-            return Resource(Status.LOADING, data,null)
+            return Resource(Status.LOADING, data, null)
         }
     }
 
@@ -24,7 +24,7 @@ class Resource<T>(val status: Status, val data: T?, val message: String?) {
         if (other == null || javaClass != other.javaClass) {
             return false
         }
-        val resource= other as Resource<*>
+        val resource = other as Resource<*>
 
         if (status != resource.status) {
             return false

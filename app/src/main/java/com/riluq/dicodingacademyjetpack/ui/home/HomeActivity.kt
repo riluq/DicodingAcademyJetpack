@@ -16,30 +16,31 @@ class HomeActivity : AppCompatActivity() {
     var fragment: Fragment? = null
     private val SELECTED_MENU = "selected_menu"
 
-    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.action_home -> {
-                fragment = AcademyFragment.newInstance()
+    private val onNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.action_home -> {
+                    fragment = AcademyFragment.newInstance()
 //                return@OnNavigationItemSelectedListener true
+                }
+                R.id.action_bookmark -> {
+                    fragment = BookmarkFragment.newInstance()
+//                return@OnNavigationItemSelectedListener true
+                }
+
             }
-            R.id.action_bookmark -> {
-                fragment = BookmarkFragment.newInstance()
-//                return@OnNavigationItemSelectedListener true
+            fragment.let {
+                if (it != null) {
+                    supportFragmentManager
+                        .beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.container, it)
+                        .commit()
+                }
             }
 
+            true
         }
-        fragment.let {
-            if (it != null) {
-                supportFragmentManager
-                    .beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .replace(R.id.container, it)
-                    .commit()
-            }
-        }
-
-        true
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

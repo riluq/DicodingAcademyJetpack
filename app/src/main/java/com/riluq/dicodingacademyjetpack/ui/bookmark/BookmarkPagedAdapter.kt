@@ -17,9 +17,11 @@ import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.ui.detail.DetailCourseActivity
 import com.riluq.dicodingacademyjetpack.utils.GlideApp
 
-class BookmarkPagedAdapter(val callback: BookmarkFragmentCallback): PagedListAdapter<CourseEntity, BookmarkPagedAdapter.BookmarkViewHolder>(DiffCallback) {
+class BookmarkPagedAdapter(val callback: BookmarkFragmentCallback) :
+    PagedListAdapter<CourseEntity, BookmarkPagedAdapter.BookmarkViewHolder>(DiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.items_bookmark, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.items_bookmark, parent, false)
         return BookmarkViewHolder(view)
     }
 
@@ -55,7 +57,7 @@ class BookmarkPagedAdapter(val callback: BookmarkFragmentCallback): PagedListAda
         }
     }
 
-    class BookmarkViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class BookmarkViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView = itemView.findViewById(R.id.tv_item_title)
         val tvDescription: TextView = itemView.findViewById(R.id.tv_item_description)
         val tvDate: TextView = itemView.findViewById(R.id.tv_item_date)
@@ -67,7 +69,7 @@ class BookmarkPagedAdapter(val callback: BookmarkFragmentCallback): PagedListAda
         return getItem(swipedPosition)
     }
 
-    companion object DiffCallback: DiffUtil.ItemCallback<CourseEntity>() {
+    companion object DiffCallback : DiffUtil.ItemCallback<CourseEntity>() {
         override fun areItemsTheSame(oldItem: CourseEntity, newItem: CourseEntity): Boolean {
             return oldItem.courseId == newItem.courseId
         }

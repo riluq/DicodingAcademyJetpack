@@ -3,6 +3,7 @@ package com.riluq.dicodingacademyjetpack.ui
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -37,7 +38,12 @@ class AcademyTest {
     @Test
     fun toDetailActivityTest() {
         onView(withId(R.id.rv_academy)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_academy)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.rv_academy)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
 
         onView(withId(R.id.text_title)).check(matches(isDisplayed()))
         onView(withId(R.id.text_title)).check(matches(withText("Menjadi Android Developer Expert")))
@@ -46,16 +52,41 @@ class AcademyTest {
     @Test
     fun toReaderActivityTest() {
         onView(withId(R.id.rv_academy)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_academy)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+        onView(withId(R.id.rv_academy)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
 
         onView(withId(R.id.btn_start)).check(matches(isDisplayed()))
         onView(withId(R.id.btn_start)).perform(click())
 
-        onView(withId(R.id.frame_container)).check(matches(isDisplayed()))
+        try {
+            onView(withId(R.id.frame_container)).check(matches(isDisplayed()))
 
-        onView(withId(R.id.rv_module)).check(matches(isDisplayed()))
-        onView(withId(R.id.rv_module)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+            onView(withId(R.id.rv_module)).check(matches(isDisplayed()))
+            onView(withId(R.id.rv_module)).perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0,
+                    click()
+                )
+            )
 
-        onView(withId(R.id.web_view)).check(matches(isDisplayed()))
+            onView(withId(R.id.web_view)).check(matches(isDisplayed()))
+        } catch (e: NoMatchingViewException) {
+            onView(withId(R.id.frame_list)).check(matches(isDisplayed()))
+
+            onView(withId(R.id.rv_module)).check(matches(isDisplayed()))
+            onView(withId(R.id.rv_module)).perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0,
+                    click()
+                )
+            )
+
+            onView(withId(R.id.web_view)).check(matches(isDisplayed()))
+            onView(withId(R.id.web_view)).check(matches(isDisplayed()))
+        }
     }
 }

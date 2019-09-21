@@ -19,15 +19,18 @@ import com.riluq.dicodingacademyjetpack.vo.Resource
 class AcademyRepository(
     private val localRepository: LocalRepository,
     private val remoteRepository: RemoteRepository,
-    private val appExecutors: AppExecutors): AcademyDataSource {
+    private val appExecutors: AppExecutors
+) : AcademyDataSource {
     companion object {
 
         @Volatile
         private var INSTANCE: AcademyRepository? = null
 
-        fun getInstance(localRepository: LocalRepository,
-                        remoteData: RemoteRepository,
-                        appExecutors: AppExecutors): AcademyRepository {
+        fun getInstance(
+            localRepository: LocalRepository,
+            remoteData: RemoteRepository,
+            appExecutors: AppExecutors
+        ): AcademyRepository {
             if (INSTANCE == null) {
                 synchronized(AcademyRepository::class.java) {
                     if (INSTANCE == null) {
@@ -39,8 +42,10 @@ class AcademyRepository(
         }
 
     }
+
     override fun getAllCourses(): LiveData<Resource<List<CourseEntity>>>? {
-        return object : NetworkBoundResource<List<CourseEntity>, List<CourseResponse>>(appExecutors) {
+        return object :
+            NetworkBoundResource<List<CourseEntity>, List<CourseResponse>>(appExecutors) {
             override fun loadFromDB(): LiveData<List<CourseEntity>> {
                 return localRepository.getAllCourses()
             }
@@ -57,13 +62,15 @@ class AcademyRepository(
                 val courseEntity: ArrayList<CourseEntity> = ArrayList()
 
                 for (courseResponse in data!!) {
-                    courseEntity.add(CourseEntity(
-                        courseResponse.id!!,
-                        courseResponse.title,
-                        courseResponse.description,
-                        courseResponse.date,
-                        null,
-                        courseResponse.imagePath)
+                    courseEntity.add(
+                        CourseEntity(
+                            courseResponse.id!!,
+                            courseResponse.title,
+                            courseResponse.description,
+                            courseResponse.date,
+                            null,
+                            courseResponse.imagePath
+                        )
                     )
                 }
                 localRepository.insertCourses(courseEntity)
@@ -73,7 +80,7 @@ class AcademyRepository(
     }
 
     override fun getCourseWithModules(courseId: String): LiveData<Resource<CourseWithModule>>? {
-        return object : NetworkBoundResource<CourseWithModule, List<ModuleResponse>>(appExecutors){
+        return object : NetworkBoundResource<CourseWithModule, List<ModuleResponse>>(appExecutors) {
             override fun loadFromDB(): LiveData<CourseWithModule> {
                 return localRepository.getCourseWithModules(courseId)
             }
@@ -89,13 +96,15 @@ class AcademyRepository(
             override fun saveCallResult(data: List<ModuleResponse>?) {
                 val moduleEntities: ArrayList<ModuleEntity> = ArrayList()
                 for (moduleResponse in data!!) {
-                    moduleEntities.add(ModuleEntity(
-                        moduleResponse.moduleId!!,
-                        courseId,
-                        moduleResponse.title!!,
-                        moduleResponse.position!!,
-                        null
-                    ))
+                    moduleEntities.add(
+                        ModuleEntity(
+                            moduleResponse.moduleId!!,
+                            courseId,
+                            moduleResponse.title!!,
+                            moduleResponse.position!!,
+                            null
+                        )
+                    )
                 }
 
                 localRepository.insertModules(moduleEntities)
@@ -103,8 +112,10 @@ class AcademyRepository(
 
         }.asLiveData()
     }
+
     override fun getAllModulesByCourse(courseId: String): LiveData<Resource<List<ModuleEntity>>>? {
-        return object : NetworkBoundResource<List<ModuleEntity>, List<ModuleResponse>>(appExecutors) {
+        return object :
+            NetworkBoundResource<List<ModuleEntity>, List<ModuleResponse>>(appExecutors) {
             override fun loadFromDB(): LiveData<List<ModuleEntity>>? {
                 return localRepository.getAllModulesByCourse(courseId)
             }
@@ -121,13 +132,15 @@ class AcademyRepository(
                 val moduleEntities: ArrayList<ModuleEntity> = ArrayList()
 
                 for (moduleResponse in data!!) {
-                    moduleEntities.add(ModuleEntity(
-                        moduleResponse.moduleId!!,
-                        courseId,
-                        moduleResponse.title!!,
-                        moduleResponse.position!!,
-                        null
-                    ))
+                    moduleEntities.add(
+                        ModuleEntity(
+                            moduleResponse.moduleId!!,
+                            courseId,
+                            moduleResponse.title!!,
+                            moduleResponse.position!!,
+                            null
+                        )
+                    )
                 }
                 localRepository.insertModules(moduleEntities)
             }
@@ -136,7 +149,8 @@ class AcademyRepository(
     }
 
     override fun getBookmarkedCourses(): LiveData<Resource<List<CourseEntity>>>? {
-        return object : NetworkBoundResource<List<CourseEntity>, List<CourseResponse>>(appExecutors) {
+        return object :
+            NetworkBoundResource<List<CourseEntity>, List<CourseResponse>>(appExecutors) {
             override fun loadFromDB(): LiveData<List<CourseEntity>> {
                 return localRepository.getBookmarkedCourses()
             }
@@ -157,7 +171,7 @@ class AcademyRepository(
     }
 
     override fun getContent(moduleId: String): LiveData<Resource<ModuleEntity>>? {
-        return object : NetworkBoundResource<ModuleEntity, ContentResponse>(appExecutors){
+        return object : NetworkBoundResource<ModuleEntity, ContentResponse>(appExecutors) {
             override fun loadFromDB(): LiveData<ModuleEntity>? {
                 return localRepository.getModuleWithContent(moduleId)
             }
@@ -178,7 +192,8 @@ class AcademyRepository(
     }
 
     override fun getBookmarkedCoursesPaged(): LiveData<Resource<PagedList<CourseEntity>>> {
-        return object : NetworkBoundResource<PagedList<CourseEntity>, List<CourseResponse>>(appExecutors) {
+        return object :
+            NetworkBoundResource<PagedList<CourseEntity>, List<CourseResponse>>(appExecutors) {
             override fun loadFromDB(): LiveData<PagedList<CourseEntity>>? {
                 return LivePagedListBuilder(localRepository.getBookmarkedCoursesPaged(), 20).build()
             }

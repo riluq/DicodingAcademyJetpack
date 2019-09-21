@@ -16,10 +16,8 @@ import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.ContentEntity
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
 import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderViewModel
-import com.riluq.dicodingacademyjetpack.utils.MyButton
 import com.riluq.dicodingacademyjetpack.viewmodel.ViewModelFactory
 import com.riluq.dicodingacademyjetpack.vo.Status
-import kotlinx.android.synthetic.main.fragment_module_content.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -77,7 +75,7 @@ class ModuleContentFragment() : Fragment() {
             progressBar.visibility = View.VISIBLE
             viewModel?.selectedModule?.observe(this, Observer { moduleEntity ->
                 if (moduleEntity != null) {
-                    when(moduleEntity.status) {
+                    when (moduleEntity.status) {
                         Status.LOADING -> progressBar.visibility = View.VISIBLE
                         Status.SUCCESS -> {
                             setButtonNextPrevState(moduleEntity.data)

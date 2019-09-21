@@ -14,7 +14,7 @@ constructor(
     private val mainThread: Executor
 ) {
 
-    constructor(): this(
+    constructor() : this(
         DiskIOThreadExecutor(), Executors.newFixedThreadPool(THREAD_COUNT), MainThreadExecutor()
     )
 
@@ -33,7 +33,7 @@ constructor(
     companion object {
         private const val THREAD_COUNT: Int = 3
 
-        private class MainThreadExecutor: Executor {
+        private class MainThreadExecutor : Executor {
             private val mainThreadHandler: Handler = Handler(Looper.getMainLooper())
 
             override fun execute(command: Runnable) {

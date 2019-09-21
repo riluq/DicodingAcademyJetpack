@@ -7,13 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
 import com.riluq.dicodingacademyjetpack.ui.reader.content.ModuleContentFragment
 import com.riluq.dicodingacademyjetpack.ui.reader.list.ModuleListFragment
 import com.riluq.dicodingacademyjetpack.viewmodel.ViewModelFactory
 import com.riluq.dicodingacademyjetpack.vo.Resource
 import com.riluq.dicodingacademyjetpack.vo.Status
-import com.riluq.dicodingacademyjetpack.R
 
 
 class CourseReaderActivity : AppCompatActivity(), CourseReaderCallback {
@@ -55,7 +55,8 @@ class CourseReaderActivity : AppCompatActivity(), CourseReaderCallback {
     override fun moveTo(position: Int, moduleId: String) {
         if (isLarge.not()) {
             val fragment = ModuleContentFragment.newInstance()
-            supportFragmentManager.beginTransaction().add(R.id.frame_container, fragment, ModuleContentFragment.TAG)
+            supportFragmentManager.beginTransaction()
+                .add(R.id.frame_container, fragment, ModuleContentFragment.TAG)
                 .addToBackStack(null)
                 .commit()
         }
@@ -76,7 +77,8 @@ class CourseReaderActivity : AppCompatActivity(), CourseReaderCallback {
     private fun initObserver() = Observer<Resource<List<ModuleEntity>>> { modules ->
         if (modules != null) {
             when (modules.status) {
-                Status.LOADING -> {}
+                Status.LOADING -> {
+                }
                 Status.SUCCESS -> {
                     if (modules.data != null && modules.data.isNotEmpty()) {
                         val firstModule = modules.data[0]
@@ -132,10 +134,15 @@ class CourseReaderActivity : AppCompatActivity(), CourseReaderCallback {
                 fragmentTransaction.add(R.id.frame_list, fragmentList, ModuleListFragment.TAG)
             }
 
-            var fragmentContent = supportFragmentManager.findFragmentByTag(ModuleContentFragment.TAG)
+            var fragmentContent =
+                supportFragmentManager.findFragmentByTag(ModuleContentFragment.TAG)
             if (fragmentContent == null) {
                 fragmentContent = ModuleContentFragment.newInstance()
-                fragmentTransaction.add(R.id.frame_content, fragmentContent, ModuleContentFragment.TAG)
+                fragmentTransaction.add(
+                    R.id.frame_content,
+                    fragmentContent,
+                    ModuleContentFragment.TAG
+                )
             }
             fragmentTransaction.commit()
         }

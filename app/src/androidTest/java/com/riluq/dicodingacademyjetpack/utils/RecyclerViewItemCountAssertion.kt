@@ -5,10 +5,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.ViewAssertion
 import androidx.test.espresso.matcher.ViewMatchers.assertThat
-import org.junit.Assert.assertNotNull
 import org.hamcrest.core.Is.`is`
+import org.junit.Assert.assertNotNull
 
-class RecyclerViewItemCountAssertion(expectedCount: Int): ViewAssertion {
+class RecyclerViewItemCountAssertion(expectedCount: Int) : ViewAssertion {
 
     private var expectedCount: Int? = null
 

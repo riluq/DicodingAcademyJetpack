@@ -22,6 +22,7 @@ class RemoteRepository(private val jsonHelper: JsonHelper) {
             return INSTANCE!!
         }
     }
+
     private val SERVICE_LATENCY_IN_MILLIS: Long = 2000
 
     fun getAllCoursesAsLiveData(): LiveData<ApiResponse<List<CourseResponse>>> {

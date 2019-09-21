@@ -9,8 +9,6 @@ import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
 
 
-
-
 class ModuleListAdapter internal constructor(private val listener: MyAdapterClickListener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val modules: ArrayList<ModuleEntity> = arrayListOf()
@@ -25,11 +23,13 @@ class ModuleListAdapter internal constructor(private val listener: MyAdapterClic
         if (viewType == 0) {
             return ModuleViewHolderHide(
                 LayoutInflater.from(parent.context)
-                    .inflate(R.layout.items_module_list_disable, parent, false))
+                    .inflate(R.layout.items_module_list_disable, parent, false)
+            )
         } else {
             return ModuleViewHolder(
                 LayoutInflater.from(parent.context)
-                    .inflate(R.layout.items_module_list_custom, parent, false))
+                    .inflate(R.layout.items_module_list_custom, parent, false)
+            )
         }
     }
 
@@ -73,7 +73,7 @@ class ModuleListAdapter internal constructor(private val listener: MyAdapterClic
         }
     }
 
-    class ModuleViewHolderHide(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class ModuleViewHolderHide(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textTitle = itemView.findViewById<TextView>(R.id.text_module_title)
 
         fun bind(title: String?) {

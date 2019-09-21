@@ -7,14 +7,10 @@ import androidx.paging.PagedList
 import com.nhaarman.mockitokotlin2.mock
 import com.riluq.dicodingacademyjetpack.data.source.AcademyRepository
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
-import com.riluq.dicodingacademyjetpack.utils.FakeDataDummyTest
 import com.riluq.dicodingacademyjetpack.vo.Resource
 import org.junit.Before
-import org.junit.Test
-
-import org.junit.Assert.*
 import org.junit.Rule
-import org.mockito.Mock
+import org.junit.Test
 import org.mockito.Mockito.*
 
 class BookmarkViewModelTest {

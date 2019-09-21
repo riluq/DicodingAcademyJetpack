@@ -7,9 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.riluq.dicodingacademyjetpack.data.source.AcademyRepository
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseWithModule
-import com.riluq.dicodingacademyjetpack.utils.generateDummyCourses
-import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
-import com.riluq.dicodingacademyjetpack.utils.generateDummyModules
 import com.riluq.dicodingacademyjetpack.vo.Resource
 
 
@@ -17,9 +14,10 @@ class DetailCourseViewModel(private val academyRepository: AcademyRepository) : 
     private var mCourse: CourseEntity? = null
     private var courseId = MutableLiveData<String>()
 
-    val courseModule: LiveData<Resource<CourseWithModule>> = Transformations.switchMap(courseId) {courseId ->
-        academyRepository.getCourseWithModules(courseId)
-    }
+    val courseModule: LiveData<Resource<CourseWithModule>> =
+        Transformations.switchMap(courseId) { courseId ->
+            academyRepository.getCourseWithModules(courseId)
+        }
 
     fun setCourseId(courseId: String) {
         this.courseId.value = courseId
