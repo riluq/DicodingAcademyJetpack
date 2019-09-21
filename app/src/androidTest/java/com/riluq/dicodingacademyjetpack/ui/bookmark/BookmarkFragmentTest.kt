@@ -10,11 +10,8 @@ import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.testing.SingleFragmentActivity
 import com.riluq.dicodingacademyjetpack.utils.EspressoIdlingResource
 import com.riluq.dicodingacademyjetpack.utils.RecyclerViewItemCountAssertion
-import kotlinx.android.synthetic.main.fragment_bookmark.view.*
 import org.junit.After
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 

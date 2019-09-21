@@ -2,6 +2,7 @@ package com.riluq.dicodingacademyjetpack.data.source.local.room
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseWithModule
@@ -43,5 +44,8 @@ interface AcademyDao {
 
     @Query("UPDATE moduleentities SET content = :content WHERE moduleId = :moduleId")
     fun updateModuleByContent(content: String, moduleId: String): Int
+
+    @Query("SELECT * FROM courseentity where bookmarked = 1")
+    fun getBookmarkedCoursesAsPaged(): DataSource.Factory<Int, CourseEntity>
 
 }

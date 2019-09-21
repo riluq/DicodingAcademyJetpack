@@ -1,6 +1,7 @@
 package com.riluq.dicodingacademyjetpack.data.source
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseWithModule
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
@@ -17,6 +18,8 @@ interface AcademyDataSource {
     fun getBookmarkedCourses(): LiveData<Resource<List<CourseEntity>>>?
 
     fun getContent(moduleId: String): LiveData<Resource<ModuleEntity>>?
+
+    fun getBookmarkedCoursesPaged(): LiveData<Resource<PagedList<CourseEntity>>>
 
     fun setCourseBookmark(courseEntity: CourseEntity, state: Boolean)
 

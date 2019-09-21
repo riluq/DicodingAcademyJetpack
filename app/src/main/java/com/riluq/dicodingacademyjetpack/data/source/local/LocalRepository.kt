@@ -1,6 +1,7 @@
 package com.riluq.dicodingacademyjetpack.data.source.local
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseWithModule
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
@@ -49,6 +50,10 @@ class LocalRepository(private val academyDao: AcademyDao) {
 
     fun getModuleWithContent(moduleId: String): LiveData<ModuleEntity> {
         return academyDao.getModuleById(moduleId)
+    }
+
+    fun getBookmarkedCoursesPaged(): DataSource.Factory<Int, CourseEntity> {
+        return academyDao.getBookmarkedCoursesAsPaged()
     }
 
     fun updateContent(content: String, moduleId: String) {
