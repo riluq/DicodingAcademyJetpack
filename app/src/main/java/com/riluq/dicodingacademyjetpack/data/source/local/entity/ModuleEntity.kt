@@ -1,9 +1,32 @@
 package com.riluq.dicodingacademyjetpack.data.source.local.entity
 
-class ModuleEntity(var moduleId: String?, courseId: String, var title: String?, var position: Int?, read: Boolean?) {
+import androidx.room.*
+
+
+@Entity(
+    tableName = "moduleentities",
+    primaryKeys = ["moduleId", "courseId"],
+    foreignKeys = [ForeignKey(
+        entity = CourseEntity::class,
+        parentColumns = ["courseId"],
+        childColumns = ["courseId"]
+    )],
+    indices = [Index(value = ["moduleId"]), Index(value = ["courseId"])]
+)
+class ModuleEntity(
+    @field:ColumnInfo(name = "moduleId")
+    var moduleId: String, courseId: String, @field:ColumnInfo(name = "title")
+    var title: String, @field:ColumnInfo(name = "position")
+    var position: Int, read: Boolean?
+) {
+    @Embedded
     var contentEntity: ContentEntity? = null
-    var courseId: String? = null
+
+    @ColumnInfo(name = "courseId")
+    var courseId: String
         private set
+
+    @ColumnInfo(name = "read")
     var isRead = false
 
     init {

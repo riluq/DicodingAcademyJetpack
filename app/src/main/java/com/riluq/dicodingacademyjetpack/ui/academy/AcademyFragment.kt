@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.viewmodel.ViewModelFactory
+import com.riluq.dicodingacademyjetpack.vo.Status
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -68,12 +70,25 @@ class AcademyFragment : Fragment() {
 
             academyAdapter = activity?.let { AcademyAdapter(it) }
 
-            viewModel!!.getCourses().observe(this, Observer { courses ->
-                progressBar?.visibility = View.GONE
-                academyAdapter?.setListCourses(courses)
-                academyAdapter?.notifyDataSetChanged()
+            viewModel?.setUsername("Dicoding")
+            viewModel?.courses?.observe(this, Observer {courses ->
+                if (courses != null) {
+                    when(courses.status) {
+                        Status.LOADING -> {
+                            progressBar?.visibility = View.VISIBLE
+                        }
+                        Status.SUCCESS -> {
+                            progressBar?.visibility = View.GONE
+                            academyAdapter?.setListCourses(courses.data)
+                            academyAdapter?.notifyDataSetChanged()
+                        }
+                        Status.ERROR -> {
+                            progressBar?.visibility = View.GONE
+                            Toast.makeText(context, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             })
-
 
             rvCourse?.layoutManager = LinearLayoutManager(context)
             rvCourse?.setHasFixedSize(true)

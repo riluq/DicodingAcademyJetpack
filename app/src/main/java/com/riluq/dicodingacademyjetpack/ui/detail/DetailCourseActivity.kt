@@ -2,12 +2,15 @@ package com.riluq.dicodingacademyjetpack.ui.detail
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -19,6 +22,7 @@ import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderActivity
 import com.riluq.dicodingacademyjetpack.utils.GlideApp
 import com.riluq.dicodingacademyjetpack.viewmodel.ViewModelFactory
+import com.riluq.dicodingacademyjetpack.vo.Status
 import kotlinx.android.synthetic.main.activity_detail_course.*
 
 
@@ -43,6 +47,8 @@ class DetailCourseActivity : AppCompatActivity() {
     private lateinit var adapter: DetailCourseAdapter
     private lateinit var imagePoster: ImageView
     private lateinit var progressBar: ProgressBar
+
+    private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,15 +77,20 @@ class DetailCourseActivity : AppCompatActivity() {
             }
         }
 
-        viewModel?.getModules()?.observe(this, Observer {moduleEntities ->
-            progressBar.visibility = View.GONE
-            adapter.setModules(moduleEntities)
-            adapter.notifyDataSetChanged()
-        })
-
-        viewModel?.getCourse()?.observe(this, Observer { courseEntity ->
-            if (courseEntity != null) {
-                populateCourse(courseEntity)
+        viewModel?.courseModule?.observe(this, Observer { courseWithModuleResource ->
+            if (courseWithModuleResource != null) {
+                when(courseWithModuleResource.status) {
+                    Status.LOADING -> progressBar.visibility = View.VISIBLE
+                    Status.SUCCESS -> {
+                        if (courseWithModuleResource.data != null) {
+                            progressBar.visibility = View.GONE
+                            adapter.setModules(courseWithModuleResource.data.modules)
+                            adapter.notifyDataSetChanged()
+                            populateCourse(courseWithModuleResource.data.course)
+                        }
+                    }
+                    Status.ERROR -> progressBar.visibility = View.GONE
+                }
             }
         })
 
@@ -108,4 +119,42 @@ class DetailCourseActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_detail, menu)
+        this.menu = menu
+        viewModel?.courseModule?.observe(this, Observer { courseWithModule ->
+            if (courseWithModule != null) {
+                when(courseWithModule.status) {
+                    Status.LOADING -> progressBar.visibility = View.VISIBLE
+                    Status.SUCCESS -> {
+                        if (courseWithModule.data != null) {
+                            progressBar.visibility = View.GONE
+                            val state = courseWithModule.data.course.isBookmarked
+                            setBookmarked(state)
+                        }
+                    }
+                    Status.ERROR -> progressBar.visibility = View.GONE
+                }
+            }
+        })
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_bookmark) {
+            viewModel?.setBookmark()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun setBookmarked(state: Boolean) {
+        if (menu == null) return
+        val menuItem = menu?.findItem(R.id.action_bookmark)
+        if (state) {
+            menuItem?.icon = ContextCompat.getDrawable(this, R.drawable.ic_bookmarked_white)
+        } else {
+            menuItem?.icon = ContextCompat.getDrawable(this, R.drawable.ic_bookmark_white)
+        }
+    }
 }

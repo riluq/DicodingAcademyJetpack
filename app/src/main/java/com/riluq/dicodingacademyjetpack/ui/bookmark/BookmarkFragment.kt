@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.riluq.dicodingacademyjetpack.R
 import com.riluq.dicodingacademyjetpack.ui.academy.AcademyViewModel
 import com.riluq.dicodingacademyjetpack.viewmodel.ViewModelFactory
+import com.riluq.dicodingacademyjetpack.vo.Status
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -71,9 +73,22 @@ class BookmarkFragment : Fragment(), BookmarkFragmentCallback {
             adapter = BookmarkAdapter(activity!!, this)
 
             viewModel?.getBookmarks()?.observe(this, Observer { courses ->
-                progressBar.visibility = View.GONE
-                adapter.setListCourses(courses)
-                adapter.notifyDataSetChanged()
+                if (courses != null) {
+                    when(courses.status) {
+                        Status.LOADING -> {
+                            progressBar.visibility = View.VISIBLE
+                        }
+                        Status.SUCCESS -> {
+                            progressBar.visibility = View.GONE
+                            adapter.setListCourses(courses.data)
+                            adapter.notifyDataSetChanged()
+                        }
+                        Status.ERROR -> {
+                            progressBar.visibility = View.GONE
+                            Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             })
 
             rvBookmark.layoutManager = LinearLayoutManager(context)

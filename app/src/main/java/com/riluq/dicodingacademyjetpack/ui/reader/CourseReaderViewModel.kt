@@ -1,30 +1,74 @@
 package com.riluq.dicodingacademyjetpack.ui.reader
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.riluq.dicodingacademyjetpack.data.source.AcademyRepository
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.ContentEntity
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
 import com.riluq.dicodingacademyjetpack.utils.generateDummyModules
+import com.riluq.dicodingacademyjetpack.vo.Resource
 
 
 class CourseReaderViewModel(private val academyRepository: AcademyRepository) : ViewModel() {
-    private var courseId: String? = null
-    private var moduleId: String? = null
+    private var courseId = MutableLiveData<String>()
+    private var moduleId = MutableLiveData<String>()
 
-    fun getModules(): LiveData<List<ModuleEntity>>? {
-        return academyRepository.getAllModulesByCourse(courseId!!)
+    val modules = Transformations.switchMap(courseId) {courseId ->
+        academyRepository.getAllModulesByCourse(courseId)
     }
 
     fun setCourseId(courseId: String) {
-        this.courseId = courseId
+        this.courseId.value = courseId
     }
 
-    fun getSelectedModule(): LiveData<ModuleEntity>? {
-        return academyRepository.getContent(courseId!!, moduleId!!)
+    val selectedModule = Transformations.switchMap(moduleId) { selectedPosition ->
+        academyRepository.getContent(selectedPosition)
     }
 
     fun setSelectedModule(moduleId: String) {
-        this.moduleId = moduleId
+        this.moduleId.value = moduleId
     }
+
+    fun readContent(module: ModuleEntity) {
+        academyRepository.setReadModule(module)
+    }
+
+    fun getModuleSize(): Int {
+        if (modules.value != null) {
+            val moduleEntities = modules.value?.data
+            if (moduleEntities != null) {
+                return moduleEntities.size
+            }
+        }
+        return 0
+    }
+
+    fun setNextPage() {
+        if (selectedModule.value != null && modules.value != null) {
+            val moduleEntity = selectedModule.value?.data
+            val moduleEntities = modules.value?.data
+            if (moduleEntity != null && moduleEntities != null) {
+                val position = moduleEntity.position
+                if (position!! < moduleEntities.size && position >= 0) {
+                    moduleEntities[position + 1].moduleId?.let { setSelectedModule(it) }
+                }
+            }
+        }
+    }
+
+    fun setPrevPage() {
+        if (selectedModule.value != null && modules.value != null) {
+            val moduleEntity = selectedModule.value?.data
+            val moduleEntities = modules.value?.data
+            if (moduleEntity != null && moduleEntities != null) {
+                val position = moduleEntity.position
+                if (position!! < moduleEntities.size && position >= 0) {
+                    moduleEntities[position - 1].moduleId?.let { setSelectedModule(it) }
+                }
+            }
+        }
+    }
+
 }

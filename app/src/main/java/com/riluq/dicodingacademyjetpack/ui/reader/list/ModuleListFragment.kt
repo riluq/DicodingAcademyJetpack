@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
@@ -19,6 +20,7 @@ import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderActivity
 import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderCallback
 import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderViewModel
 import com.riluq.dicodingacademyjetpack.viewmodel.ViewModelFactory
+import com.riluq.dicodingacademyjetpack.vo.Status
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -69,13 +71,21 @@ class ModuleListFragment() : Fragment(), MyAdapterClickListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         if (activity != null) {
-            progressBar.visibility = View.VISIBLE
             viewModel = obtainViewModel(activity!!)
             adapter = ModuleListAdapter(this)
-            viewModel?.getModules()?.observe(this, Observer { moduleEntities ->
+            viewModel?.modules?.observe(this, Observer { moduleEntities ->
                 if (moduleEntities != null) {
-                    progressBar.visibility = View.GONE
-                    populateRecyclerView(moduleEntities)
+                    when(moduleEntities.status) {
+                        Status.LOADING -> progressBar.visibility = View.VISIBLE
+                        Status.SUCCESS -> {
+                            progressBar.visibility = View.VISIBLE
+                            populateRecyclerView(moduleEntities.data)
+                        }
+                        Status.ERROR -> {
+                            progressBar.visibility = View.GONE
+                            Toast.makeText(context, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
             })
         }

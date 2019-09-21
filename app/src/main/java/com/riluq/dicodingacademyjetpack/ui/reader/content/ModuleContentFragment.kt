@@ -6,15 +6,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
+import android.widget.Button
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.riluq.dicodingacademyjetpack.R
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.ContentEntity
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
 import com.riluq.dicodingacademyjetpack.ui.reader.CourseReaderViewModel
+import com.riluq.dicodingacademyjetpack.utils.MyButton
 import com.riluq.dicodingacademyjetpack.viewmodel.ViewModelFactory
+import com.riluq.dicodingacademyjetpack.vo.Status
+import kotlinx.android.synthetic.main.fragment_module_content.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -46,6 +51,8 @@ class ModuleContentFragment() : Fragment() {
 
     private lateinit var webView: WebView
     private lateinit var progressBar: ProgressBar
+    private lateinit var btnNext: Button
+    private lateinit var btnPrev: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,6 +66,8 @@ class ModuleContentFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         webView = view.findViewById(R.id.web_view)
         progressBar = view.findViewById(R.id.progress_bar)
+        btnNext = view.findViewById(R.id.btn_next)
+        btnPrev = view.findViewById(R.id.btn_prev)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -66,17 +75,47 @@ class ModuleContentFragment() : Fragment() {
         if (activity != null) {
             viewModel = obtainViewModel(activity!!)
             progressBar.visibility = View.VISIBLE
-            viewModel?.getSelectedModule()?.observe(this, Observer { moduleEntity ->
+            viewModel?.selectedModule?.observe(this, Observer { moduleEntity ->
                 if (moduleEntity != null) {
-                    progressBar.visibility = View.GONE
-                    populateWebView(moduleEntity)
+                    when(moduleEntity.status) {
+                        Status.LOADING -> progressBar.visibility = View.VISIBLE
+                        Status.SUCCESS -> {
+                            setButtonNextPrevState(moduleEntity.data)
+                            progressBar.visibility = View.GONE
+                            if (moduleEntity.data?.isRead?.not()!!) {
+                                viewModel?.readContent(moduleEntity.data);
+                            }
+
+                            if (moduleEntity.data.contentEntity != null) {
+                                populateWebView(moduleEntity.data.contentEntity)
+                            }
+                        }
+                        Status.ERROR -> progressBar.visibility = View.GONE
+                    }
                 }
             })
+            btnNext.setOnClickListener { viewModel?.setNextPage() }
+            btnPrev.setOnClickListener { viewModel?.setPrevPage() }
         }
     }
 
-    private fun populateWebView(content: ModuleEntity?) {
-        webView.loadData(content?.contentEntity?.content, "text/html", "UTF-8")
+    private fun populateWebView(content: ContentEntity?) {
+        webView.loadData(content?.content, "text/html", "UTF-8")
+    }
+
+    private fun setButtonNextPrevState(module: ModuleEntity?) {
+        if (activity != null) {
+            if (module?.position == 0) {
+                btnPrev.isEnabled = false
+                btnNext.isEnabled = true
+            } else if (module?.position == viewModel?.getModuleSize()?.minus(1)) {
+                btnPrev.isEnabled = true
+                btnNext.isEnabled = false
+            } else {
+                btnPrev.isEnabled = true
+                btnNext.isEnabled = true
+            }
+        }
     }
 
 }
