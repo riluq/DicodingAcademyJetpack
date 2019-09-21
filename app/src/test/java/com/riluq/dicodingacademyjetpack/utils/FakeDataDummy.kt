@@ -1,10 +1,13 @@
 package com.riluq.dicodingacademyjetpack.utils
 
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.ContentEntity
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
+import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseWithModule
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.ModuleEntity
 import com.riluq.dicodingacademyjetpack.data.source.remote.response.ContentResponse
 import com.riluq.dicodingacademyjetpack.data.source.remote.response.CourseResponse
 import com.riluq.dicodingacademyjetpack.data.source.remote.response.ModuleResponse
+
 
 class FakeDataDummyTest {
     companion object {
@@ -255,6 +258,29 @@ class FakeDataDummyTest {
 
         fun generateRemoteDummyContent(moduleId: String): ContentResponse {
             return ContentResponse(moduleId, "This is a dummy content")
+        }
+
+        fun generateDummyCourseWithModules(
+            course: CourseEntity,
+            bookmarked: Boolean
+        ): CourseWithModule {
+            val courseWithModule = CourseWithModule()
+            courseWithModule.course = course
+            courseWithModule.course.isBookmarked = bookmarked
+            courseWithModule.modules= generateDummyModules(course.courseId)
+            return courseWithModule
+        }
+
+        fun generateDummyContent(moduleId: String): ContentEntity {
+
+            return ContentEntity("This is a dummy content")
+        }
+
+        fun generateDummyModuleWithContent(courseId: String): ModuleEntity {
+            val moduleEntity = generateDummyModules(courseId)[0]
+            moduleEntity.contentEntity = generateDummyContent(moduleEntity.moduleId)
+
+            return moduleEntity
         }
     }
 }

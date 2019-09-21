@@ -7,6 +7,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.riluq.dicodingacademyjetpack.data.source.AcademyRepository
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.utils.FakeDataDummyTest
+import com.riluq.dicodingacademyjetpack.vo.Resource
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -22,7 +23,9 @@ class AcademyViewModelTest {
     private var viewModel: AcademyViewModel? = null
     private var academyRepository: AcademyRepository? = mock(AcademyRepository::class.java)
 
-    val observer: Observer<List<CourseEntity>> = mock()
+    val observer: Observer<Resource<List<CourseEntity>>> = mock()
+
+    private val USERNAME = "Dicoding"
 
     @Before
     fun setUp() {
@@ -31,15 +34,16 @@ class AcademyViewModelTest {
 
     @Test
     fun getCourses() {
-        val dummyCourse: List<CourseEntity> = FakeDataDummyTest.generateDummyCourses()
+        val resource: Resource<List<CourseEntity>> = Resource.success(FakeDataDummyTest.generateDummyCourses())
+        val dummyCourse= MutableLiveData<Resource<List<CourseEntity>>>()
+        dummyCourse.value = resource
 
-        val courses = MutableLiveData<List<CourseEntity>>()
-        courses.value = dummyCourse
+        `when`(academyRepository?.getAllCourses()).thenReturn(dummyCourse)
 
-        `when`(academyRepository?.getAllCourses()).thenReturn(courses)
+        viewModel?.setUsername(USERNAME)
 
-        viewModel?.getCourses()?.observeForever(observer)
+        viewModel?.courses?.observeForever(observer)
 
-        verify(observer).onChanged(dummyCourse)
+        verify(observer).onChanged(resource)
     }
 }

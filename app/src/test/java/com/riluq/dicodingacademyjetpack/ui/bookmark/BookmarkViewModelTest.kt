@@ -7,6 +7,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.riluq.dicodingacademyjetpack.data.source.AcademyRepository
 import com.riluq.dicodingacademyjetpack.data.source.local.entity.CourseEntity
 import com.riluq.dicodingacademyjetpack.utils.FakeDataDummyTest
+import com.riluq.dicodingacademyjetpack.vo.Resource
 import org.junit.Before
 import org.junit.Test
 
@@ -23,7 +24,7 @@ class BookmarkViewModelTest {
     private var viewModel: BookmarkViewModel? = null
     private val academyRepository: AcademyRepository = mock(AcademyRepository::class.java)
 
-    val observer: Observer<List<CourseEntity>> = mock()
+    val observer: Observer<Resource<List<CourseEntity>>> = mock()
 
     @Before
     fun setUp() {
@@ -32,15 +33,14 @@ class BookmarkViewModelTest {
 
     @Test
     fun getBookmarks() {
-        val dummyCourses: List<CourseEntity> = FakeDataDummyTest.generateDummyCourses()
+        val resource: Resource<List<CourseEntity>> = Resource.success(FakeDataDummyTest.generateDummyCourses())
+        val dummyCourses = MutableLiveData<Resource<List<CourseEntity>>>()
+        dummyCourses.value = resource
 
-        val courses = MutableLiveData<List<CourseEntity>>()
-        courses.value = dummyCourses
-
-        `when`(academyRepository.getBookmarkedCourses()).thenReturn(courses)
+        `when`(academyRepository.getBookmarkedCourses()).thenReturn(dummyCourses)
 
         viewModel?.getBookmarks()?.observeForever(observer)
 
-        verify(observer).onChanged(dummyCourses)
+        verify(observer).onChanged(resource)
     }
 }
